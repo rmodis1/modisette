@@ -45,6 +45,11 @@
                 <span asp-validation-for="Contact.TimeSubmitted" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Contact.Notes" class="control-label"></label>
+                <input asp-for="Contact.Notes" class="form-control" />
+                <span asp-validation-for="Contact.Notes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
