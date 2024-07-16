@@ -22,6 +22,8 @@ public class Contact
     [Display(Name = "Time Submitted")]
     public DateTime TimeSubmitted { get; set; }
 
+    public string? Notes { get; set; } = "";
+
     public Contact()
     {
         TimeSubmitted = DateTime.UtcNow;
