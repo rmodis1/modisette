@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Modisete.Models;
+using Modisette.Models;
 using Modisette.Data;
 
 namespace modisette.Pages.ContactForm

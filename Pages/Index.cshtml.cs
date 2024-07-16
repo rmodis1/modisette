@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace modisette.Pages;
+namespace Modisette.Pages;
 
 public class IndexModel : PageModel
 {

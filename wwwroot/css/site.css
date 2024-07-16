@@ -160,6 +160,10 @@ p {
   margin-bottom: 1rem;
 }
 
+#about {
+  flex-wrap: nowrap;
+}
+
 abbr[title] {
   -webkit-text-decoration: underline dotted;
           text-decoration: underline dotted;
@@ -10852,6 +10856,7 @@ p.lead {
 #sideNav {
   padding-left: 1rem;
   padding-right: 1rem;
+  /* flex-wrap: nowrap; */
 }
 #sideNav .navbar-nav .nav-item .nav-link {
   font-weight: 800;

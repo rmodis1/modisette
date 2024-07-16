@@ -1,0 +1,64 @@
+@page
+@model ContactModel
+
+@{ 
+    ViewData["Title"] = "Contact";
+}
+
+<section class="py-5">
+    <div class="container px-5">
+        <!-- Contact form-->
+        <div class="bg-light rounded-4 py-5 px-4 px-md-5">
+            <div class="text-center mb-5">
+                <div class="feature bg-primary bg-gradient-primary-to-secondary text-white rounded-3 mb-3"><i class="bi bi-envelope"></i></div>
+                <h1 class="fw-bolder">Get in touch</h1>
+            </div>
+            <div class="row gx-5 justify-content-center">
+                <div class="col-lg-8 col-xl-6">
+                    <form id="contactForm" form method="post">
+                        <!-- Name input-->
+                        <div class="form-floating mb-3">
+                            <input class="form-control" asp-for="Contact.FirstName" placeholder="Enter your first name..." />
+                            <label asp-for="Contact.FirstName" class="control-label">First name</label>
+                            <span asp-validation-for="Contact.FirstName" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input class="form-control" asp-for="Contact.LastName" placeholder="Enter your last name..."/>
+                            <label asp-for="Contact.LastName" class="control-label">Last name</label>
+                            <span asp-validation-for="Contact.LastName" class="text-danger"></span>
+                        </div>
+                        <!-- Email address input-->
+                        <div class="form-floating mb-3">
+                            <input class="form-control" asp-for="Contact.Email" placeholder="name@example.com"/>
+                            <label asp-for="Contact.Email" class="control-label">Email address</label>
+                            <span asp-validation-for="Contact.Email" class="text-danger"></span>
+                        </div>
+                        <!-- Phone number input-->
+                        <div class="form-floating mb-3">
+                            <input class="form-control" asp-for="Contact.PhoneNumber" placeholder="(123) 456-7890" />
+                            <label asp-for="Contact.PhoneNumber" class="control-label">Phone number</label>
+                            <span asp-validation-for="Contact.PhoneNumber" class="text-danger"></span>
+                        </div>
+                        <!-- Message input-->
+                        <div class="form-floating mb-3">
+                            <textarea class="form-control" asp-for="Contact.Message" placeholder="Enter your message here..." style="height: 10rem"></textarea>
+                            <label asp-for="Contact.Message" class="control-label">Message</label>
+                            <span asp-validation-for="Contact.Message" class="text-danger"></span>
+                        </div>
+
+                        <!-- Submit Button-->
+                        <div class="form-group">
+                            <button class="btn btn-primary btn-lg" id="submitButton" type="submit" value="Create">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

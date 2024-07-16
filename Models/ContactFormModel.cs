@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Modisete.Models;
+namespace Modisette.Models;
 public class Contact
 {
     public int Id { get; set; }

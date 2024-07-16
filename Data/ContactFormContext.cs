@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Modisete.Models;
+using Modisette.Models;
 
 namespace Modisette.Data
 {
@@ -14,6 +14,6 @@ namespace Modisette.Data
         {
         }
 
-        public DbSet<Modisete.Models.Contact> Contact { get; set; } = default!;
+        public DbSet<Modisette.Models.Contact> Contact { get; set; } = default!;
     }
 }
