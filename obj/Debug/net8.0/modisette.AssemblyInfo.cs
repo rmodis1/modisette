@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("modisette")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1e6f92a7959d8733d6c14ed7a2ef0793f5d70c19")]
 [assembly: System.Reflection.AssemblyProductAttribute("modisette")]
 [assembly: System.Reflection.AssemblyTitleAttribute("modisette")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
