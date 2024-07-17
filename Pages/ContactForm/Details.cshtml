@@ -5,6 +5,8 @@
     ViewData["Title"] = "Details";
 }
 
+@await Html.PartialAsync("_PartialAuthorization")
+
 @if (User.Identity.IsAuthenticated)
 {
 

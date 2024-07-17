@@ -59,5 +59,8 @@ namespace modisette.Pages.ContactForm
 
             return RedirectToPage("./Display");
         }
+
+        public IActionResult OnGetPartial() =>
+            Partial("_PartialAuthorization");
     }
 }

@@ -5,6 +5,8 @@
     ViewData["Title"] = "Delete";
 }
 
+@await Html.PartialAsync("_PartialAuthorization")
+
 @if (User.Identity.IsAuthenticated)
 {
 

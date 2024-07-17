@@ -1,0 +1,11 @@
+@if (User.Identity.IsAuthenticated)
+{
+ <div>
+    <div>
+      <button>
+        <a class="nav-link text-dark display-6" asp-area="" 
+             asp-page="/Account/Logout">Logout</a>
+      </button>
+    </div>
+ </div>
+}

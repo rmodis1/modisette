@@ -38,5 +38,8 @@ namespace Modisette.Pages.ContactForm
 
             Contact = await contacts.ToListAsync();
         }
+
+        public IActionResult OnGetPartial() =>
+            Partial("_PartialAuthorization");
     }
 }

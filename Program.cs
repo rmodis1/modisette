@@ -12,7 +12,13 @@ builder.Services
             options.ClientId = builder.Configuration["Auth0:ClientId"];
         });
 
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages(options =>
+{
+    options.Conventions.AuthorizeFolder("/ContactForm")
+                       .AllowAnonymousToPage("/ContactForm/Display")
+                       .AllowAnonymousToFolder("/ContactForm/Account");
+});
+
 builder.Services.AddDbContext<ContactFormContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("ContactFormContext") 
     ?? throw new InvalidOperationException("Connection string 'ContactFormContext' not found.")));
