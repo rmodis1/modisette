@@ -15,7 +15,7 @@ builder.Services
 builder.Services.AddRazorPages(options =>
 {
     options.Conventions.AuthorizeFolder("/ContactForm")
-                       .AllowAnonymousToPage("/ContactForm/Display")
+                       .AllowAnonymousToPage("/ContactForm/Index")
                        .AllowAnonymousToFolder("/ContactForm/Account");
 });
 

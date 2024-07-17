@@ -1,11 +1,10 @@
 @if (User.Identity.IsAuthenticated)
 {
- <div>
-    <div>
-      <button>
-        <a class="nav-link text-dark display-6" asp-area="" 
-             asp-page="/Account/Logout">Logout</a>
-      </button>
-    </div>
- </div>
+
+<div>
+    <button class="btn btn-primary btn-lg" style="margin: 15px 0">
+    <a class="nav-link text-light display-6" asp-page="./Account/Logout">Logout</a>
+    </button>
+</div>
+
 }
