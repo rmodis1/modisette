@@ -1,9 +1,17 @@
+using Auth0.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Modisette.Data;
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services.
+builder.Services
+       .AddAuth0WebAppAuthentication(options =>
+        {
+            options.Domain = builder.Configuration["Auth0:Domain"];
+            options.ClientId = builder.Configuration["Auth0:ClientId"];
+        });
+
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<ContactFormContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("ContactFormContext") 
@@ -23,6 +31,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
