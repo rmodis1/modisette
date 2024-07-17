@@ -277,3 +277,5 @@
 /Users/ryanmodisette/Documents/Capstone/modisette/obj/Debug/net8.0/modisette.pdb
 /Users/ryanmodisette/Documents/Capstone/modisette/obj/Debug/net8.0/modisette.genruntimeconfig.cache
 /Users/ryanmodisette/Documents/Capstone/modisette/obj/Debug/net8.0/ref/modisette.dll
+/Users/ryanmodisette/Documents/Capstone/modisette/bin/Debug/net8.0/Auth0.AspNetCore.Authentication.dll
+/Users/ryanmodisette/Documents/Capstone/modisette/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.OpenIdConnect.dll

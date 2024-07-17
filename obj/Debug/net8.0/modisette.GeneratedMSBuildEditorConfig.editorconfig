@@ -30,12 +30,12 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWJvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/ryanmodisette/Documents/Capstone/modisette/Pages/Account/Login.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQWNjb3VudC9Mb2dpbi5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
 [/Users/ryanmodisette/Documents/Capstone/modisette/Pages/Contact.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29udGFjdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ryanmodisette/Documents/Capstone/modisette/Pages/ContactForm/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29udGFjdEZvcm0vQWNjb3VudC9Mb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/ryanmodisette/Documents/Capstone/modisette/Pages/ContactForm/Create.cshtml]
@@ -48,6 +48,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/Users/ryanmodisette/Documents/Capstone/modisette/Pages/ContactForm/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29udGFjdEZvcm0vRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/ryanmodisette/Documents/Capstone/modisette/Pages/ContactForm/Display.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29udGFjdEZvcm0vRGlzcGxheS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/ryanmodisette/Documents/Capstone/modisette/Pages/ContactForm/Edit.cshtml]

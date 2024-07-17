@@ -66,7 +66,7 @@ namespace modisette.Pages.ContactForm
                 }
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Display");
         }
 
         private bool ContactExists(int id)

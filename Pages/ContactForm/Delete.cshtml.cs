@@ -57,7 +57,7 @@ namespace modisette.Pages.ContactForm
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Display");
         }
     }
 }

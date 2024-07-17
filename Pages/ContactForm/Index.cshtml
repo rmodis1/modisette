@@ -1,72 +1,19 @@
 @page
-@model Modisette.Pages.ContactForm.IndexModel
+@model IndexModel
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Contact[0].FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Contact[0].LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Contact[0].Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Contact[0].PhoneNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Contact[0].Message)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Contact[0].TimeSubmitted)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Contact[0].Notes)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.Contact) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Message)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TimeSubmitted)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Notes)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<h2>Admin Area</h2>
+<div>
+    <p>Please log in to access the more content.</p>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <button class="btn btn-primary btn-lg"><a class="nav-link text-light" asp-page="./Display">Admin Page</a></button>
+        }
+        else
+        {
+            <button class="btn btn-primary btn-lg"><a class="nav-link text-light" asp-page="Account/Login">Login Page</a></button>
+        }
+</div>

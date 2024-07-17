@@ -5,6 +5,9 @@
     ViewData["Title"] = "Delete";
 }
 
+@if (User.Identity.IsAuthenticated)
+{
+
 <h1>Delete</h1>
 
 <h3>Are you sure you want to delete this?</h3>
@@ -59,6 +62,7 @@
     <form method="post">
         <input type="hidden" asp-for="Contact.Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-page="./Index">Back to List</a>
+        <a asp-page="./Display">Back to List</a>
     </form>
 </div>
+}
