@@ -5,12 +5,20 @@
       "PackagePath": "staticwebassets/modisette.bundle.scp.css"
     },
     {
+      "Id": "/Users/ryanmodisette/Documents/Capstone/modisette/wwwroot/castle_unsplash.jpeg",
+      "PackagePath": "staticwebassets/castle_unsplash.jpeg"
+    },
+    {
       "Id": "/Users/ryanmodisette/Documents/Capstone/modisette/wwwroot/css/site.css",
       "PackagePath": "staticwebassets/css/site.css"
     },
     {
       "Id": "/Users/ryanmodisette/Documents/Capstone/modisette/wwwroot/favicon.ico",
       "PackagePath": "staticwebassets/favicon.ico"
+    },
+    {
+      "Id": "/Users/ryanmodisette/Documents/Capstone/modisette/wwwroot/george-hiles-unsplash.jpeg",
+      "PackagePath": "staticwebassets/george-hiles-unsplash.jpeg"
     },
     {
       "Id": "/Users/ryanmodisette/Documents/Capstone/modisette/wwwroot/js/site.js",

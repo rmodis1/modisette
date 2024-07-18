@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "HFtJiSfb371to+Z5/wRVPO7SuDcnO9JrBatQt89GPRQ=",
+  "Hash": "53ZQI/y2UUILLc6JUtaEmbvrANK+wkRlMKqHI9M4ijw=",
   "Source": "modisette",
   "BasePath": "_content/modisette",
   "Mode": "Default",
@@ -55,6 +55,25 @@
       "OriginalItemSpec": "/Users/ryanmodisette/Documents/Capstone/modisette/obj/Debug/net8.0/scopedcss/projectbundle/modisette.bundle.scp.css"
     },
     {
+      "Identity": "/Users/ryanmodisette/Documents/Capstone/modisette/wwwroot/castle_unsplash.jpeg",
+      "SourceId": "modisette",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/ryanmodisette/Documents/Capstone/modisette/wwwroot/",
+      "BasePath": "_content/modisette",
+      "RelativePath": "castle_unsplash.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/castle_unsplash.jpeg"
+    },
+    {
       "Identity": "/Users/ryanmodisette/Documents/Capstone/modisette/wwwroot/css/site.css",
       "SourceId": "modisette",
       "SourceType": "Discovered",
@@ -91,6 +110,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/favicon.ico"
+    },
+    {
+      "Identity": "/Users/ryanmodisette/Documents/Capstone/modisette/wwwroot/george-hiles-unsplash.jpeg",
+      "SourceId": "modisette",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/ryanmodisette/Documents/Capstone/modisette/wwwroot/",
+      "BasePath": "_content/modisette",
+      "RelativePath": "george-hiles-unsplash.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/george-hiles-unsplash.jpeg"
     },
     {
       "Identity": "/Users/ryanmodisette/Documents/Capstone/modisette/wwwroot/js/site.js",
