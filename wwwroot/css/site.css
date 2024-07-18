@@ -1,16 +1,14 @@
 @charset "UTF-8";
 
+/*!
+ * Bootstrap  v5.3.3 (https://getbootstrap.com/)
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+ */
+
 #HomeTag, #HomeHelperText {
   z-index: 9999;
   color: #FFFFFF;
   font-weight: bold;
-}
-
-
-#HomeImg {
-  border: 1px solid #DDDDDD;
-  position: relative;
-  z-index: 10;
 }
 
 :root {
@@ -173,9 +171,7 @@ p {
   margin-bottom: 1rem;
 }
 
-#about {
-  flex-wrap: nowrap;
-}
+
 
 abbr[title] {
   -webkit-text-decoration: underline dotted;
@@ -2022,7 +2018,7 @@ progress {
 .form-control:focus {
   color: #212529;
   background-color: #fff;
-  border-color: #deae9c;
+  border-color: #8B927B;
   outline: 0;
   box-shadow: 0 0 0 0.25rem rgba(189, 93, 56, 0.25);
 }
@@ -3608,7 +3604,6 @@ textarea.form-control-lg {
 .nav {
   --bs-nav-link-padding-x: 1rem;
   --bs-nav-link-padding-y: 0.5rem;
-  --bs-nav-link-font-weight: ;
   --bs-nav-link-color: var(--bs-link-color);
   --bs-nav-link-hover-color: var(--bs-link-hover-color);
   --bs-nav-link-disabled-color: #ebeff2;
@@ -10833,7 +10828,6 @@ body {
 @media (min-width: 992px) {
   body {
     padding-top: 0;
-    padding-left: 0;
   }
 }
 h1, .h1,
@@ -10869,7 +10863,6 @@ p.lead {
 #sideNav {
   padding-left: 1rem;
   padding-right: 1rem;
-  /* flex-wrap: nowrap; */
 }
 #sideNav .navbar-nav .nav-item .nav-link {
   font-weight: 800;
@@ -10883,16 +10876,15 @@ p.lead {
 @media (min-width: 992px) {
   #sideNav {
     padding-left: 0;
-    padding-right: 10px;
+    padding-right: 0;
     text-align: center;
     position: fixed;
     top: 0;
     left: 0;
     display: flex;
     flex-direction: column;
-    width: 13rem;
+    width: 15rem;
     height: 100vh;
-    margin-right: 50px;
   }
   #sideNav .navbar-brand {
     display: flex;
