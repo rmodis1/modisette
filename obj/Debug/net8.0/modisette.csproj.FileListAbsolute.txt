@@ -279,3 +279,7 @@
 /Users/ryanmodisette/Documents/Capstone/modisette/obj/Debug/net8.0/ref/modisette.dll
 /Users/ryanmodisette/Documents/Capstone/modisette/bin/Debug/net8.0/Auth0.AspNetCore.Authentication.dll
 /Users/ryanmodisette/Documents/Capstone/modisette/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.OpenIdConnect.dll
+/Users/ryanmodisette/Documents/Capstone/modisette/bin/Debug/net8.0/BouncyCastle.Cryptography.dll
+/Users/ryanmodisette/Documents/Capstone/modisette/bin/Debug/net8.0/MailKit.dll
+/Users/ryanmodisette/Documents/Capstone/modisette/bin/Debug/net8.0/MimeKit.dll
+/Users/ryanmodisette/Documents/Capstone/modisette/bin/Debug/net8.0/System.Formats.Asn1.dll

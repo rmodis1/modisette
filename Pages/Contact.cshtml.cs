@@ -8,11 +8,16 @@ namespace Modisette.Pages;
 public class ContactModel : PageModel
 {
     private readonly Modisette.Data.ContactFormContext _context;
+    private readonly EmailAddress _FromAndToEmailAddress;
+    private readonly IEmailService _EmailService;
 
-    public ContactModel(Modisette.Data.ContactFormContext context)
+    public ContactModel(Modisette.Data.ContactFormContext context, EmailAddress fromAndToEmailAddress, IEmailService emailService)
     {
         _context = context;
+        _FromAndToEmailAddress = fromAndToEmailAddress;
+        _EmailService = emailService;
     }
+
 
     public IActionResult OnGet()
     {
@@ -28,6 +33,25 @@ public class ContactModel : PageModel
         if (!ModelState.IsValid)
         {
             return Page();
+        }
+
+        EmailMessage messageToSend = new EmailMessage
+        {
+            FromEmailAddress = new List<EmailAddress> { _FromAndToEmailAddress },
+            ToEmailAddress = new List<EmailAddress> { _FromAndToEmailAddress },
+            Content = $"Someone just contacted you through your website!\n" +
+            $"Name: {Contact.FirstName} {Contact.LastName}\n" +
+            $"Email: {Contact.Email}\n" +
+            $"Message: {Contact.Message}",
+            Subject = "Contact Form"
+        };
+        try
+        {
+            await _EmailService.Send(messageToSend);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
         }
 
         _context.Contact.Add(Contact);

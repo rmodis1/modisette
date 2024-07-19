@@ -2,6 +2,8 @@ using Auth0.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Modisette.Data;
+using Modisette.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services.
@@ -11,6 +13,8 @@ builder.Services
             options.Domain = builder.Configuration["Auth0:Domain"];
             options.ClientId = builder.Configuration["Auth0:ClientId"];
         });
+
+builder.Services.AddMvc();
 
 builder.Services.AddRazorPages(options =>
 {
@@ -22,6 +26,20 @@ builder.Services.AddRazorPages(options =>
 builder.Services.AddDbContext<ContactFormContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("ContactFormContext") 
     ?? throw new InvalidOperationException("Connection string 'ContactFormContext' not found.")));
+
+var emailConfig = builder.Configuration
+                         .GetSection("EmailConfiguration")
+                         .Get<EmailServerConfiguration>();
+
+builder.Services.AddSingleton(emailConfig);
+
+builder.Services.AddTransient<IEmailService, MailKitEmailService>();
+
+var emailAddress = builder.Configuration
+                          .GetSection("EmailAddress")
+                          .Get<EmailAddress>();
+
+builder.Services.AddSingleton(emailAddress); 
 
 var app = builder.Build();
 
