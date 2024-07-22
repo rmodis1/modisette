@@ -253,6 +253,10 @@
       "PackagePath": "staticwebassets/lib/jquery/dist/jquery.min.map"
     },
     {
+      "Id": "/Users/ryanmodisette/Documents/Capstone/modisette/wwwroot/sas_icon_132021.svg",
+      "PackagePath": "staticwebassets/sas_icon_132021.svg"
+    },
+    {
       "Id": "obj/Debug/net8.0/staticwebassets/msbuild.build.modisette.props",
       "PackagePath": "build\\modisette.props"
     },

@@ -33,7 +33,8 @@ namespace Modisette.Pages.ContactForm
             {
                 contacts = contacts.Where(contact => contact.FirstName.Contains(SearchString) || 
                                                      contact.LastName.Contains(SearchString) || 
-                                                     contact.Message.Contains(SearchString));
+                                                     contact.Message.Contains(SearchString)||
+                                                     contact.Notes.Contains(SearchString));
             }
 
             Contact = await contacts.ToListAsync();
