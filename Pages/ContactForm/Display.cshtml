@@ -3,9 +3,8 @@
 
 @{
     ViewData["Title"] = "Display";
+    Layout = "./Shared/_Layout3";
 }
-
-@await Html.PartialAsync("_PartialAuthorization")
 
 @if (User.Identity.IsAuthenticated)
 {
@@ -14,7 +13,7 @@
 
 <form>
     <p>
-        Filter by name, message or notes: <input type="text" asp-for="SearchString" />
+        Filter by name, message, or notes: <input type="text" asp-for="SearchString" />
         <input type="submit" value="Filter" />
     </p>
 </form>

@@ -3,9 +3,8 @@
 
 @{
     ViewData["Title"] = "Edit";
+    Layout = "./Shared/_Layout3";
 }
-
-@await Html.PartialAsync("_PartialAuthorization")
 
 @if (User.Identity.IsAuthenticated)
 {
@@ -55,7 +54,7 @@
                 <span asp-validation-for="Contact.Notes" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary text-light" />
             </div>
         </form>
     </div>
