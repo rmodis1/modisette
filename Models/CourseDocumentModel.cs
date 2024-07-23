@@ -12,7 +12,7 @@ public class CourseDocument
     public int CourseNumber { get; set; }
     public int CourseYear { get; set; }
     public TimeOfYear CourseSemester { get; set; }
-    [NotMapped]
-    public Blob Document { get; set; }
+    public string Name { get; set; }
+    public byte[] Document { get; set; }
 
 }

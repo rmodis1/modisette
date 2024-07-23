@@ -5,7 +5,7 @@
 namespace modisette.Migrations
 {
     /// <inheritdoc />
-    public partial class CourseMigration : Migration
+    public partial class CourseContent : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -40,7 +40,8 @@ namespace modisette.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     CourseNumber = table.Column<int>(type: "INTEGER", nullable: false),
                     CourseYear = table.Column<int>(type: "INTEGER", nullable: false),
-                    CourseSemester = table.Column<int>(type: "INTEGER", nullable: false)
+                    CourseSemester = table.Column<int>(type: "INTEGER", nullable: false),
+                    Document = table.Column<byte[]>(type: "BLOB", nullable: false)
                 },
                 constraints: table =>
                 {

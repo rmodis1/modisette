@@ -18,30 +18,30 @@
                     <form id="contactForm" form method="post">
                         <!-- Name input-->
                         <div class="form-floating mb-3">
-                            <input class="form-control" asp-for="Contact.FirstName" placeholder="Enter your first name..." />
+                            <input class="form-control" asp-for="Contact.FirstName" />
                             <label asp-for="Contact.FirstName" class="control-label">First name</label>
                             <span asp-validation-for="Contact.FirstName" class="text-danger"></span>
                         </div>
                         <div class="form-floating mb-3">
-                            <input class="form-control" asp-for="Contact.LastName" placeholder="Enter your last name..."/>
+                            <input class="form-control" asp-for="Contact.LastName"/>
                             <label asp-for="Contact.LastName" class="control-label">Last name</label>
                             <span asp-validation-for="Contact.LastName" class="text-danger"></span>
                         </div>
                         <!-- Email address input-->
                         <div class="form-floating mb-3">
-                            <input class="form-control" asp-for="Contact.Email" placeholder="name@example.com"/>
+                            <input class="form-control" asp-for="Contact.Email" />
                             <label asp-for="Contact.Email" class="control-label">Email address</label>
                             <span asp-validation-for="Contact.Email" class="text-danger"></span>
                         </div>
                         <!-- Phone number input-->
                         <div class="form-floating mb-3">
-                            <input class="form-control" asp-for="Contact.PhoneNumber" placeholder="(123) 456-7890" />
+                            <input class="form-control" asp-for="Contact.PhoneNumber" />
                             <label asp-for="Contact.PhoneNumber" class="control-label">Phone number</label>
                             <span asp-validation-for="Contact.PhoneNumber" class="text-danger"></span>
                         </div>
                         <!-- Message input-->
                         <div class="form-floating mb-3">
-                            <textarea class="form-control" asp-for="Contact.Message" placeholder="Enter your message here..." style="height: 10rem"></textarea>
+                            <textarea class="form-control" asp-for="Contact.Message" style="height: 10rem"></textarea>
                             <label asp-for="Contact.Message" class="control-label">Message</label>
                             <span asp-validation-for="Contact.Message" class="text-danger"></span>
                         </div>

@@ -14,7 +14,7 @@ namespace Modisette.Data
         {
         }
 
-        public DbSet<Modisette.Models.Contact> Contact { get; set; } = default!;
+        public DbSet<Contact> Contact { get; set; } = default!;
         public DbSet<Course> Courses { get; set; } = default!;
         public DbSet<CourseDocument> CourseDocuments { get; set; } = default!;
     }

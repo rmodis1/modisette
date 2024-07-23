@@ -70,6 +70,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29udGFjdEZvcm0vX1BhcnRpYWxBdXRob3JpemF0aW9uLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/ryanmodisette/Documents/Capstone/modisette/Pages/ContentForm/AddContent.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ29udGVudEZvcm0vQWRkQ29udGVudC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/ryanmodisette/Documents/Capstone/modisette/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 

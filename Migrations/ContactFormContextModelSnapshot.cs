@@ -89,6 +89,10 @@ namespace modisette.Migrations
                     b.Property<int>("CourseYear")
                         .HasColumnType("INTEGER");
 
+                    b.Property<byte[]>("Document")
+                        .IsRequired()
+                        .HasColumnType("BLOB");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CourseNumber", "CourseYear", "CourseSemester");

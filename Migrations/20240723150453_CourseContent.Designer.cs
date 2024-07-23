@@ -11,8 +11,8 @@ using Modisette.Data;
 namespace modisette.Migrations
 {
     [DbContext(typeof(SiteContext))]
-    [Migration("20240723013450_CourseMigration")]
-    partial class CourseMigration
+    [Migration("20240723150453_CourseContent")]
+    partial class CourseContent
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -91,6 +91,10 @@ namespace modisette.Migrations
 
                     b.Property<int>("CourseYear")
                         .HasColumnType("INTEGER");
+
+                    b.Property<byte[]>("Document")
+                        .IsRequired()
+                        .HasColumnType("BLOB");
 
                     b.HasKey("Id");
 

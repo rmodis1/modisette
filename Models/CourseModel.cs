@@ -24,6 +24,6 @@ public class Course
     public TimeOfYear Semester { get; set; }
     [Required]
     public string Title { get; set; }
-    public ICollection<CourseDocument> Documents { get; set; } = new List<CourseDocument>();
+    public ICollection<CourseDocument> Files { get; set; } = new List<CourseDocument>();
 
 }
