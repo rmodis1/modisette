@@ -13,9 +13,9 @@ namespace modisette.Pages.ContactForm
 {
     public class EditModel : PageModel
     {
-        private readonly Modisette.Data.ContactFormContext _context;
+        private readonly Modisette.Data.SiteContext _context;
 
-        public EditModel(Modisette.Data.ContactFormContext context)
+        public EditModel(Modisette.Data.SiteContext context)
         {
             _context = context;
         }

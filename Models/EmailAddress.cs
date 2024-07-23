@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Modisette.Models;
 
 public class EmailAddress

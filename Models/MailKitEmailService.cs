@@ -1,3 +1,4 @@
+using MailKit.Security;
 using Microsoft.VisualBasic;
 using MimeKit;
 

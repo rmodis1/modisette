@@ -12,9 +12,9 @@ namespace modisette.Pages.ContactForm
 {
     public class DeleteModel : PageModel
     {
-        private readonly Modisette.Data.ContactFormContext _context;
+        private readonly Modisette.Data.SiteContext _context;
 
-        public DeleteModel(Modisette.Data.ContactFormContext context)
+        public DeleteModel(Modisette.Data.SiteContext context)
         {
             _context = context;
         }

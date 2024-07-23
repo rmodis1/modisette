@@ -23,23 +23,23 @@ builder.Services.AddRazorPages(options =>
                        .AllowAnonymousToFolder("/ContactForm/Account");
 });
 
-builder.Services.AddDbContext<ContactFormContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("ContactFormContext") 
-    ?? throw new InvalidOperationException("Connection string 'ContactFormContext' not found.")));
+builder.Services.AddDbContext<SiteContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("SiteContext") 
+    ?? throw new InvalidOperationException("Connection string 'SiteContext' not found.")));
 
 var emailConfig = builder.Configuration
                          .GetSection("EmailConfiguration")
                          .Get<EmailServerConfiguration>();
 
-builder.Services.AddSingleton(emailConfig);
+builder.Services.AddSingleton<EmailServerConfiguration>(emailConfig);
 
 builder.Services.AddTransient<IEmailService, MailKitEmailService>();
 
 var emailAddress = builder.Configuration
-                          .GetSection("EmailAddress")
+                          .GetSection("SiteEmailAddress")
                           .Get<EmailAddress>();
 
-builder.Services.AddSingleton(emailAddress); 
+builder.Services.AddSingleton<EmailAddress>(emailAddress); 
 
 var app = builder.Build();
 

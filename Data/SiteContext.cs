@@ -7,13 +7,15 @@ using Modisette.Models;
 
 namespace Modisette.Data
 {
-    public class ContactFormContext : DbContext
+    public class SiteContext : DbContext
     {
-        public ContactFormContext (DbContextOptions<ContactFormContext> options)
+        public SiteContext (DbContextOptions<SiteContext> options)
             : base(options)
         {
         }
 
         public DbSet<Modisette.Models.Contact> Contact { get; set; } = default!;
+        public DbSet<Course> Courses { get; set; } = default!;
+        public DbSet<CourseDocument> CourseDocuments { get; set; } = default!;
     }
 }

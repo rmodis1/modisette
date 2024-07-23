@@ -7,11 +7,11 @@ namespace Modisette.Pages;
 
 public class ContactModel : PageModel
 {
-    private readonly Modisette.Data.ContactFormContext _context;
+    private readonly Modisette.Data.SiteContext _context;
     private readonly EmailAddress _FromAndToEmailAddress;
     private readonly IEmailService _EmailService;
 
-    public ContactModel(Modisette.Data.ContactFormContext context, EmailAddress fromAndToEmailAddress, IEmailService emailService)
+    public ContactModel(Modisette.Data.SiteContext context, EmailAddress fromAndToEmailAddress, IEmailService emailService)
     {
         _context = context;
         _FromAndToEmailAddress = fromAndToEmailAddress;

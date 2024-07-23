@@ -10,7 +10,7 @@ using Modisette.Data;
 
 namespace modisette.Migrations
 {
-    [DbContext(typeof(ContactFormContext))]
+    [DbContext(typeof(SiteContext))]
     [Migration("20240716222455_InitialCreate")]
     partial class InitialCreate
     {

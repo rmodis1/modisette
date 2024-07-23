@@ -12,9 +12,9 @@ namespace Modisette.Pages.ContactForm
 {
     public class DisplayModel : PageModel
     {
-        private readonly Modisette.Data.ContactFormContext _context;
+        private readonly Modisette.Data.SiteContext _context;
 
-        public DisplayModel(Modisette.Data.ContactFormContext context)
+        public DisplayModel(Modisette.Data.SiteContext context)
         {
             _context = context;
         }
