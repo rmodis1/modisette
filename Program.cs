@@ -54,6 +54,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
 app.UseStaticFiles();
 
 app.UseRouting();
@@ -61,6 +62,13 @@ app.UseRouting();
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+//  var emailRestrictionOptions = new EmailRestrictionOptions
+//     {
+//         AllowedEmails = ["modisetteryan@gmail.com", "email2@example.com", "email3@example.com"]
+//     };
+    
+//     app.UseEmailRestriction(emailRestrictionOptions);
 
 app.MapRazorPages();
 
