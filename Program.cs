@@ -27,7 +27,7 @@ builder.Services.AddDbContext<SiteContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("SiteContext") 
     ?? throw new InvalidOperationException("Connection string 'SiteContext' not found.")));
 
-var emailConfig = builder.Configuration
+EmailServerConfiguration emailConfig = builder.Configuration
                          .GetSection("EmailConfiguration")
                          .Get<EmailServerConfiguration>();
 
