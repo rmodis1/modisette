@@ -31,6 +31,8 @@ var emailConfig = builder.Configuration
                          .GetSection("EmailConfiguration")
                          .Get<EmailServerConfiguration>();
 
+emailConfig.SmtpPassword = builder.Configuration["SmtpPassword"];
+
 builder.Services.AddSingleton<EmailServerConfiguration>(emailConfig);
 
 builder.Services.AddTransient<IEmailService, MailKitEmailService>();
