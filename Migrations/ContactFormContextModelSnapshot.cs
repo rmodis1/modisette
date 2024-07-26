@@ -89,9 +89,13 @@ namespace modisette.Migrations
                     b.Property<int>("CourseYear")
                         .HasColumnType("INTEGER");
 
-                    b.Property<byte[]>("Document")
+                    b.Property<string>("Document")
                         .IsRequired()
-                        .HasColumnType("BLOB");
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -103,7 +107,7 @@ namespace modisette.Migrations
             modelBuilder.Entity("Modisette.Models.CourseDocument", b =>
                 {
                     b.HasOne("Modisette.Models.Course", null)
-                        .WithMany("Documents")
+                        .WithMany("Files")
                         .HasForeignKey("CourseNumber", "CourseYear", "CourseSemester")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -111,7 +115,7 @@ namespace modisette.Migrations
 
             modelBuilder.Entity("Modisette.Models.Course", b =>
                 {
-                    b.Navigation("Documents");
+                    b.Navigation("Files");
                 });
 #pragma warning restore 612, 618
         }

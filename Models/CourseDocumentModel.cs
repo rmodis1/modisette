@@ -13,6 +13,6 @@ public class CourseDocument
     public int CourseYear { get; set; }
     public TimeOfYear CourseSemester { get; set; }
     public string Name { get; set; }
-    public byte[] Document { get; set; }
+    public Uri Document { get; set; }
 
 }

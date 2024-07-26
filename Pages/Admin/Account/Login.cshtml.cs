@@ -9,7 +9,7 @@ namespace Modisette.Pages
 {
     public class LoginModel : PageModel
     {
-        public async Task OnGet(string returnUrl = "/ContactForm/Display")
+        public async Task OnGet(string returnUrl = "Admin/ContactForm/Display")
         {
             var authenticationProperties = new LoginAuthenticationPropertiesBuilder()
                         .WithRedirectUri(returnUrl)

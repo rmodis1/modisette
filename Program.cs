@@ -18,9 +18,9 @@ builder.Services.AddMvc();
 
 builder.Services.AddRazorPages(options =>
 {
-    options.Conventions.AuthorizeFolder("/ContactForm")
-                       .AllowAnonymousToPage("/ContactForm/Index")
-                       .AllowAnonymousToFolder("/ContactForm/Account");
+    options.Conventions.AuthorizeFolder("/Admin")
+                       .AllowAnonymousToPage("/Admin/Index")
+                       .AllowAnonymousToFolder("/Admin/Account");
 });
 
 builder.Services.AddDbContext<SiteContext>(options =>

@@ -41,7 +41,8 @@ namespace modisette.Migrations
                     CourseNumber = table.Column<int>(type: "INTEGER", nullable: false),
                     CourseYear = table.Column<int>(type: "INTEGER", nullable: false),
                     CourseSemester = table.Column<int>(type: "INTEGER", nullable: false),
-                    Document = table.Column<byte[]>(type: "BLOB", nullable: false)
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Document = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
