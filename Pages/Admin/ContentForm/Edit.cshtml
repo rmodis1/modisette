@@ -36,7 +36,7 @@
                 @foreach (var file in Model.Documents)
                     {
                         <form method = "post" asp-page="./Edit" asp-page-handler="DeleteFile" asp-route-fileId="@file.Id" >
-                            <li><a href="@file.Document">@file.Name</a></li>
+                            <li><a href="~/uploads/@file.Document">@file.Name</a></li>
                             <button type="submit" value="Delete">Delete</button>
                         </form>
                     }

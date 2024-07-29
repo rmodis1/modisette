@@ -95,23 +95,24 @@ namespace modisette.Pages.Admin.ContentForm
             {
                 if (formFile.Length > 0)
                 {
-                    var trustedFileNameForFileStorage = Path.GetRandomFileName();
+                    var fileName = Path.GetFileName(formFile.FileName);
+                    // var trustedFileNameForFileStorage = Path.GetRandomFileName();
                     var uploads = Path.Combine(_webHostEnvironment.WebRootPath, "Uploads");
-                    var filePath = Path.Combine(uploads, trustedFileNameForFileStorage);
+                    var filePath = Path.Combine(uploads, fileName);
 
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         await formFile.CopyToAsync(stream);
                     }
 
-                    var fileUri = "/" + trustedFileNameForFileStorage; // Store the URI relative to the root
+                    var fileUri = "/" + fileName; // Store the URI relative to the root
 
                     var courseDocument = new CourseDocument
                     {
                         CourseCode = course.Code,
                         CourseYear = course.Year,
                         CourseSemester = course.Semester,
-                        Name = trustedFileNameForFileStorage,
+                        Name = fileName,
                         Document = new Uri(fileUri, UriKind.Relative)
                     };
 
