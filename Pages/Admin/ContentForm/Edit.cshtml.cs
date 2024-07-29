@@ -116,8 +116,6 @@ namespace modisette.Pages.Admin.ContentForm
                         Document = new Uri(fileUri, UriKind.Relative)
                     };
 
-                    Console.WriteLine($"Adding CourseDocument: {courseDocument.CourseCode}, {courseDocument.CourseYear}, {courseDocument.CourseSemester}, {courseDocument.Name}, {courseDocument.Document}");
-
                     _context.CourseDocuments.Add(courseDocument);
                 }
             }
