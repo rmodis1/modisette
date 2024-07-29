@@ -1,0 +1,55 @@
+@page
+@using Modisette.Models
+@model modisette.Pages.Admin.ContentForm.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Course</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Course.Code" class="control-label"></label>
+                <input asp-for="Course.Code" class="form-control" />
+                <span asp-validation-for="Course.Code" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Course.Year" class="control-label"></label>
+                <input asp-for="Course.Year" class="form-control" />
+                <span asp-validation-for="Course.Year" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Course.Semester" class="control-label"></label>
+                <select asp-for="Course.Semester" class="form-control" asp-items="Html.GetEnumSelectList<TimeOfYear>()"></select>
+                <span asp-validation-for="Course.Semester" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-4">
+                <label asp-for="Course.Title" class="control-label"></label>
+                <input asp-for="Course.Title" class="form-control" />
+                <span asp-validation-for="Course.Title" class="text-danger"></span>
+            </div>
+            <!-- File input-->
+            <div class="form-group mb-4">
+                <input class="form-control" asp-for="Files.FormFiles" type="file" multiple/>
+                <span asp-validation-for="Files.FormFiles" class="text-danger"></span>
+            </div> 
+            <div class="form-group mb-2">
+                <input type="submit" value="Create" class="btn btn-primary text-light" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

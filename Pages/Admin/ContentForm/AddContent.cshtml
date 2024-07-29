@@ -19,9 +19,9 @@
                     <form enctype="multipart/form-data" id="courseContentForm" form method="post">
                         <!-- Course input-->
                         <div class="form-floating mb-3">
-                            <input class="form-control" asp-for="Course.Number" />
-                            <label asp-for="Course.Number" class="control-label">Course Code (e.g., MAT 105)</label>
-                            <span asp-validation-for="Course.Number" class="text-danger"></span>
+                            <input class="form-control" asp-for="Course.Code" />
+                            <label asp-for="Course.Code" class="control-label">Course Code (e.g., MAT 105)</label>
+                            <span asp-validation-for="Course.Code" class="text-danger"></span>
                         </div>
                         <div class="form-floating mb-3">
                             <input class="form-control" asp-for="Course.Year"/>
@@ -29,8 +29,6 @@
                             <span asp-validation-for="Course.Year" class="text-danger"></span>
                         </div>
                         <div class="form-floating mb-3">
-                            <input class="form-control" asp-for="Course.Semester"/>
-                            <label asp-for="Course.Semester" class="control-label">Semester</label>
                             <select asp-for="Course.Semester" asp-items="Html.GetEnumSelectList<TimeOfYear>()">
                             </select>
                             <span asp-validation-for="Course.Semester" class="text-danger"></span>
@@ -41,9 +39,8 @@
                             <span asp-validation-for="Course.Title" class="text-danger"></span>
                         </div>
                         <!-- File input-->
-                        <div class="form-floating mb-3">
+                        <div class="form mb-3">
                             <input class="form-control" asp-for="BufferedFiles.FormFiles" type="file" multiple/>
-                            <label asp-for="BufferedFiles.FormFiles" class="control-label">Upload files</label>
                             <span asp-validation-for="BufferedFiles.FormFiles" class="text-danger"></span>
                         </div> 
                         <!-- Submit Button--> 

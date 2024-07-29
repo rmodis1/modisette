@@ -1,0 +1,54 @@
+@page
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@model modisette.Pages.Admin.ContentForm.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Course</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Course.Code" />
+            <input type="hidden" asp-for="Course.Year" />
+            <input type="hidden" asp-for="Course.Semester" />
+            <div class="form-group mb-4">
+                <label asp-for="Course.Title" class="control-label"></label>
+                <input asp-for="Course.Title" class="form-control" />
+                <span asp-validation-for="Course.Title" class="text-danger"></span>
+            </div>
+             <div class="form-group mb-4">
+                <input class="form-control" asp-for="Files.FormFiles" type="file" multiple/>
+                <span asp-validation-for="Files.FormFiles" class="text-danger"></span>
+            </div> 
+            <div class="form-group mb-2">
+                <input type="submit" value="Save" class="btn btn-primary text-light" />
+            </div>
+        </form>
+        <div>
+            <h3>Files</h3>
+            <ul>
+                @foreach (var file in Model.Documents)
+                    {
+                        <form method = "post" asp-page="./Edit" asp-page-handler="DeleteFile" asp-route-fileId="@file.Id" >
+                            <li><a href="@file.Document">@file.Name</a></li>
+                            <button type="submit" value="Delete">Delete</button>
+                        </form>
+                    }
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

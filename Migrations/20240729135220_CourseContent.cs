@@ -22,14 +22,14 @@ namespace modisette.Migrations
                 name: "Courses",
                 columns: table => new
                 {
-                    Number = table.Column<int>(type: "INTEGER", nullable: false),
+                    Code = table.Column<string>(type: "TEXT", nullable: false),
                     Year = table.Column<int>(type: "INTEGER", nullable: false),
                     Semester = table.Column<int>(type: "INTEGER", nullable: false),
                     Title = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Courses", x => new { x.Number, x.Year, x.Semester });
+                    table.PrimaryKey("PK_Courses", x => new { x.Code, x.Year, x.Semester });
                 });
 
             migrationBuilder.CreateTable(
@@ -38,7 +38,7 @@ namespace modisette.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    CourseNumber = table.Column<int>(type: "INTEGER", nullable: false),
+                    CourseCode = table.Column<string>(type: "TEXT", nullable: false),
                     CourseYear = table.Column<int>(type: "INTEGER", nullable: false),
                     CourseSemester = table.Column<int>(type: "INTEGER", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
@@ -48,17 +48,17 @@ namespace modisette.Migrations
                 {
                     table.PrimaryKey("PK_CourseDocuments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CourseDocuments_Courses_CourseNumber_CourseYear_CourseSemester",
-                        columns: x => new { x.CourseNumber, x.CourseYear, x.CourseSemester },
+                        name: "FK_CourseDocuments_Courses_CourseCode_CourseYear_CourseSemester",
+                        columns: x => new { x.CourseCode, x.CourseYear, x.CourseSemester },
                         principalTable: "Courses",
-                        principalColumns: new[] { "Number", "Year", "Semester" },
+                        principalColumns: new[] { "Code", "Year", "Semester" },
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_CourseDocuments_CourseNumber_CourseYear_CourseSemester",
+                name: "IX_CourseDocuments_CourseCode_CourseYear_CourseSemester",
                 table: "CourseDocuments",
-                columns: new[] { "CourseNumber", "CourseYear", "CourseSemester" });
+                columns: new[] { "CourseCode", "CourseYear", "CourseSemester" });
         }
 
         /// <inheritdoc />

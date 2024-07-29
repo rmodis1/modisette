@@ -9,7 +9,7 @@ public class CourseDocument
 {
     [Key]
     public int Id { get; set; }
-    public int CourseNumber { get; set; }
+    public string CourseCode { get; set; }
     public int CourseYear { get; set; }
     public TimeOfYear CourseSemester { get; set; }
     public string Name { get; set; }

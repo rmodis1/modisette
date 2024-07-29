@@ -56,8 +56,8 @@ namespace modisette.Migrations
 
             modelBuilder.Entity("Modisette.Models.Course", b =>
                 {
-                    b.Property<int>("Number")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Code")
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("Year")
                         .HasColumnType("INTEGER");
@@ -69,7 +69,7 @@ namespace modisette.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Number", "Year", "Semester");
+                    b.HasKey("Code", "Year", "Semester");
 
                     b.ToTable("Courses");
                 });
@@ -80,8 +80,9 @@ namespace modisette.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("CourseNumber")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("CourseCode")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("CourseSemester")
                         .HasColumnType("INTEGER");
@@ -99,7 +100,7 @@ namespace modisette.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CourseNumber", "CourseYear", "CourseSemester");
+                    b.HasIndex("CourseCode", "CourseYear", "CourseSemester");
 
                     b.ToTable("CourseDocuments");
                 });
@@ -108,7 +109,7 @@ namespace modisette.Migrations
                 {
                     b.HasOne("Modisette.Models.Course", null)
                         .WithMany("Files")
-                        .HasForeignKey("CourseNumber", "CourseYear", "CourseSemester")
+                        .HasForeignKey("CourseCode", "CourseYear", "CourseSemester")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

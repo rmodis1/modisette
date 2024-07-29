@@ -13,11 +13,11 @@ public enum TimeOfYear
     Winter
 }
 
-[PrimaryKey(nameof(Number), nameof(Year), nameof(Semester))]
+[PrimaryKey(nameof(Code), nameof(Year), nameof(Semester))]
 public class Course
 {
     [Required]
-    public int Number { get; set; }
+    public string Code { get; set; }
     [Required]
     public int Year { get; set; }
     [Required]
