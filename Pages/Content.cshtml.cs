@@ -29,13 +29,13 @@ public class ContentModel : PageModel
     public List<SelectListItem> CourseCodes { get; set; }
     public List<CourseDocument> CourseDocuments { get; set; }
 
-    public void OnGet()
+    public async Task OnGetAsync()
     {
-        Years = _context.Courses.Select(c => new SelectListItem
+        Years = await _context.Courses.Select(c => new SelectListItem
         {
             Value = c.Year.ToString(),
             Text = c.Year.ToString()
-        }).Distinct().ToList();
+        }).Distinct().ToListAsync();
 
         Semesters = new List<SelectListItem>();
         CourseCodes = new List<SelectListItem>();
@@ -43,47 +43,30 @@ public class ContentModel : PageModel
 
         if (Year.HasValue)
         {
-            Semesters = _context.Courses
+            Semesters = await _context.Courses
                 .Where(c => c.Year == Year.Value)
                 .Select(c => c.Semester)
                 .Distinct()
                 .Select(s => new SelectListItem { Value = s.ToString(), Text = s.ToString() })
-                .ToList();
+                .ToListAsync();
         }
 
         if (Year.HasValue && Semester.HasValue)
         {
-            CourseCodes = _context.Courses
+            CourseCodes = await _context.Courses
                 .Where(c => c.Year == Year.Value && c.Semester == Semester.Value)
                 .Select(c => c.Code)
                 .Distinct()
                 .Select(cc => new SelectListItem { Value = cc, Text = cc })
-                .ToList();
+                .ToListAsync();
         }
 
         if (!string.IsNullOrEmpty(CourseCode))
         {
-            CourseDocuments = _context.CourseDocuments
+            CourseDocuments = await _context.CourseDocuments
                 .Where(cd => cd.CourseCode == CourseCode)
-                .ToList();
+                .ToListAsync();
         }
     }
 }
-    
-    
-    // public IList<Course> Courses { get;set; } = default!;
-
-    //  public async Task OnGetAsync()
-    //     {
-    //         var courses = from course in _context.Courses
-    //                        select course;
-
-    //         Courses = await courses.ToListAsync();
-    //     }
-
-// public class SelectListItem
-// {
-//     public string Value { get; set; }
-//     public string Text { get; set; }
-// }
 
