@@ -1,10 +1,56 @@
 ﻿@page
 @model ContentModel
 @{
-    ViewData["Title"] = "Content";
+    ViewData["Title"] = "Course Content";
     Layout = "./Shared/_Layout3";
 
 }
 <h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<form method="get" class="mt-4 p-4 border rounded bg-light">
+    <div class="form-group">
+        <label for="year" class="my-2 font-weight-bold" style="font-size: 1.2em;">Year</label>
+        <select clas="form-control text-center" id="year" name="Year" asp-for="Year" asp-items="Model.Years" onchange="this.form.submit()">
+            <option value="">Select Year</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="semester" class="my-2 font-weight-bold" style="font-size: 1.2em;">Semester</label>
+        <select clas="form-control text-center" id="semester" name="Semester" asp-for="Semester" asp-items="Model.Semesters" onchange="this.form.submit()">
+            <option value="">Select Semester</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="courseCode" class="my-2 font-weight-bold" style="font-size: 1.2em;">Course Code</label>
+        <select clas="form-control text-center" id="courseCode" name="CourseCode" asp-for="CourseCode" asp-items="Model.CourseCodes" onchange="this.form.submit()">
+            <option value="">Select Course Code</option>
+        </select>
+    </div>
+</form>
+
+@if (Model.CourseDocuments != null && Model.CourseDocuments.Any())
+{
+    <table id="courseDocuments" class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Document Name</th>
+                <th>Link</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var document in Model.CourseDocuments)
+            {
+                <tr>
+                    <td>@document.Name</td>
+                    <td><a href="~/uploads/@document.Document" class="btn btn-primary text-light">View Document</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+     <div class="alert alert-warning" role="alert">
+        No documents available for the selected course.
+    </div>
+}

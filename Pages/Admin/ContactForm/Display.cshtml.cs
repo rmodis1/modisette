@@ -19,7 +19,7 @@ namespace Modisette.Pages.ContactForm
             _context = context;
         }
 
-        public IList<Contact> Contact { get;set; } = default!;
+        public IList<Contact> Contacts { get;set; } = default!;
 
         [BindProperty(SupportsGet = true)]
         public string? SearchString { get; set;}
@@ -37,7 +37,7 @@ namespace Modisette.Pages.ContactForm
                                                      contact.Notes.Contains(SearchString));
             }
 
-            Contact = await contacts.ToListAsync();
+            Contacts = await contacts.ToListAsync();
         }
 
         public IActionResult OnGetPartial() =>

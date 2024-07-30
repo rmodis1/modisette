@@ -22,31 +22,31 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Contact[0].FirstName)
+                @Html.DisplayNameFor(model => model.Contacts[0].FirstName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Contact[0].LastName)
+                @Html.DisplayNameFor(model => model.Contacts[0].LastName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Contact[0].Email)
+                @Html.DisplayNameFor(model => model.Contacts[0].Email)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Contact[0].PhoneNumber)
+                @Html.DisplayNameFor(model => model.Contacts[0].PhoneNumber)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Contact[0].Message)
+                @Html.DisplayNameFor(model => model.Contacts[0].Message)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Contact[0].TimeSubmitted)
+                @Html.DisplayNameFor(model => model.Contacts[0].TimeSubmitted)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Contact[0].Notes)
+                @Html.DisplayNameFor(model => model.Contacts[0].Notes)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Contact) {
+@foreach (var item in Model.Contacts) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.FirstName)

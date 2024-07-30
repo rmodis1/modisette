@@ -11,12 +11,30 @@
 <div>
     <h4>Course</h4>
     <hr />
-    <dl class="row">
+     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Course.Title)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Course.Title)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Course.Year)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Course.Year)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Course.Semester)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Course.Semester)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Course.Code)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Course.Code)
         </dd>
     </dl>
 </div>

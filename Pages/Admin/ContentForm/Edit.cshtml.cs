@@ -105,15 +105,13 @@ namespace modisette.Pages.Admin.ContentForm
                         await formFile.CopyToAsync(stream);
                     }
 
-                    var fileUri = "/" + fileName; // Store the URI relative to the root
-
                     var courseDocument = new CourseDocument
                     {
                         CourseCode = course.Code,
                         CourseYear = course.Year,
                         CourseSemester = course.Semester,
                         Name = fileName,
-                        Document = new Uri(fileUri, UriKind.Relative)
+                        Document = new Uri(fileName, UriKind.Relative)
                     };
 
                     _context.CourseDocuments.Add(courseDocument);
