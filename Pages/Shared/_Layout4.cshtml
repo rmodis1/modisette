@@ -25,18 +25,14 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-start">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                            <a class="nav-link text-dark" asp-page="/Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-page="/ContentForm/Index">Courses</a>
+                            <a class="nav-link text-dark" asp-page="/Admin/ContentForm/Index">Courses</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-page="/ContactForm/Display">Contacts</a>
+                            <a class="nav-link text-dark" asp-page="/Admin/ContactForm/Display">Contacts</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-page="/Privacy">Privacy</a>
-                        </li>
-                    </ul>
                 </div>
                 <div class="justify-content-end">
                     @await Html.PartialAsync("_PartialAuthorization")
@@ -52,7 +48,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2024 - modisette - <a asp-page="/Privacy">Privacy</a>
+            &copy; 2024 - modisette 
         </div>
     </footer>
 

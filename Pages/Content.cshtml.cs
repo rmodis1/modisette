@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Modisette.Pages;
 
-public class PrivacyModel : PageModel
+public class ContentModel : PageModel
 {
-    private readonly ILogger<PrivacyModel> _logger;
+    private readonly ILogger<ContentModel> _logger;
 
-    public PrivacyModel(ILogger<PrivacyModel> logger)
+    public ContentModel(ILogger<ContentModel> logger)
     {
         _logger = logger;
     }

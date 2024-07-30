@@ -42,18 +42,19 @@ namespace modisette.Pages.Admin.ContentForm
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(string id)
+        public async Task<IActionResult> OnPostAsync(Course course)
         {
-            if (id == null)
+            if (course == null)
             {
                 return NotFound();
             }
 
-            var course = await _context.Courses.FindAsync(id);
-            if (course != null)
+            var courseToDelete = await _context.Courses.SingleOrDefaultAsync(m => m.Code == Course.Code &&
+                                                                                  m.Year == Course.Year &&
+                                                                                  m.Semester == Course.Semester);
+            if (courseToDelete != null)
             {
-                Course = course;
-                _context.Courses.Remove(Course);
+                _context.Courses.Remove(courseToDelete);
                 await _context.SaveChangesAsync();
             }
 
