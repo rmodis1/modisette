@@ -2,7 +2,7 @@
 
 ## Overview
 
-The project is my capstone project for CODE:You. The application will serve as a personal website for a client. There is an admin section where she can review contact submissions and add/edit (CRUD) courses and the course content that she uploads. When a contact form is submitted, a version of that message is sent to a dummy email through Google's Smtp. The website also uses AuthO (an implementation of OAuth 2.0) to handle authentication. Within AuthO, I have written a Node.js script that authorizes only certain accounts to access the admin portion of the site.   
+The project is my capstone project for CODE: You. The application will serve as a personal website for a client. There is an admin section where she can review contact submissions and add/edit (CRUD) courses and the course content that she uploads. When a contact form is submitted, a version of that message is sent to a dummy email through Google's Smtp. The website also uses AuthO (an implementation of OAuth 2.0) to handle authentication. Within AuthO, I have written a Node.js script that authorizes only certain accounts to access the admin portion of the site.   
 
 ## Features Utilized for the project
 
