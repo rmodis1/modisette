@@ -15,3 +15,7 @@ The project is my capstone project for CODE:You. The application will serve as a
 ## Database
 
 All data for the site is store in a SQLite database named Modisette.db.
+
+## Dependencies
+
+> The project targets .NET 8.0, and that version of .NET will need to be installed for the site to load properly. 
