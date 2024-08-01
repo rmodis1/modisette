@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Modisette.Tests
 {
     [TestClass]
-    public class ContactPageModelTests
+    public class ContactPageModelTest
     {
         private Mock<IEmailService> _mockEmailService;
         private Mock<EmailAddress> _mockEmailAddress;
