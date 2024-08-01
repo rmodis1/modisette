@@ -139,12 +139,5 @@ namespace modisette.Pages.Admin.ContentForm
 
             return RedirectToPage("./Index");
         }
-    
-
-        public class BufferedFiles
-        {
-            [Required]
-            public List<IFormFile> FormFiles { get; set; }
-        }
     }
 }
