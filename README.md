@@ -13,7 +13,7 @@ The project is my capstone project for CODE: You. The application will serve as 
   | Unit Tests | The project includes 7 unit tests which cover all the basic functions of the site. |
   | Asynchronous Methods | All of the main methods used in the program are asynchronous. |
   | Responsive Design | All pages are built with a responsive design in mind and will work on mobile and desktop devices. |
-  | Complex queries | The content page has a series of selections which pull data from two different tables in the database. The entries in these tables are in a one-to-many relationship with one another. |
+  | Complex queries | The content page has a series of selections which pull data from two different tables in the database. |
    
 ## Database
 
