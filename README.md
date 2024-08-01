@@ -8,8 +8,9 @@ The project is my capstone project for CODE: You. The application will serve as 
 
   | Feature        | Description                           |
   |----------------|---------------------------------------|
-  | C#, HTML, CSS | Front end UI was made using ASP.NET Core's Razor Pages |
+  | C#, HTML, CSS | Front end UI was made using ASP.NET Core's Razor Pages. Back end was written in C#. There are also two brief JavaScript functions.  |
   | Entity Framework Core | The data layer is abstracted with EF Core as an ORM. There is a one-to-many relationship between courses and course documents, and there is a composite primary key in the courses table. |
+  | Unit Tests | The project includes 7 unit tests which cover all the basic functions of the site. |
   | Responsive Design | All pages are built with a responsive design in mind and will work on mobile and desktop devices. |
    
 ## Database
