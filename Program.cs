@@ -14,6 +14,8 @@ builder.Services
             options.ClientId = builder.Configuration["Auth0:ClientId"];
         });
 
+builder.Services.AddHttpClient();
+
 builder.Services.AddMvc();
 
 builder.Services.AddRazorPages(options =>

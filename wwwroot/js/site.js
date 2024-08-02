@@ -1,4 +1,4 @@
-﻿Scripts
+﻿//Scripts
 
 
 window.addEventListener('DOMContentLoaded', event => {
