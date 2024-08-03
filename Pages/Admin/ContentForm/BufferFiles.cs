@@ -17,6 +17,7 @@ namespace modisette.Pages.Admin.ContentForm
 public class BufferedFiles
 {
     [Required]
+    [Display(Name = "File")]
     public List<IFormFile> FormFiles { get; set; }
 }
 }

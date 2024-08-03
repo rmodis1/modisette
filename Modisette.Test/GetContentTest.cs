@@ -1,71 +1,65 @@
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Modisette.Data; 
-using Modisette.Models; 
-using Modisette.Pages.Admin.ContentForm;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Modisette.Pages;
-using Microsoft.EntityFrameworkCore;
+using Modisette.Services;
+using Modisette.Models;
 
-namespace Modisette.Tests
+[TestClass]
+public class GetContentTest
 {
-    [TestClass]
-    public class ContentPageTests
+    private Mock<ICourseService> _courseServiceMock;
+    private ContentModel _pageModel;
+
+    [TestInitialize]
+    public void Setup()
     {
-        private SiteContext _context;
-        private ContentModel _pageModel;
+        _courseServiceMock = new Mock<ICourseService>();
 
-        [TestInitialize]
-        public void Setup()
-        {
-            var options = new DbContextOptionsBuilder<SiteContext>()
-                .UseInMemoryDatabase(databaseName: "MockDatabase")
-                .Options;
-
-            _context = new SiteContext(options);
-
-            // Seed the in-memory database with test data
-            _context.Courses.AddRange(new List<Course>
+        _courseServiceMock.Setup(service => service.GetYearsAsync())
+            .ReturnsAsync(new List<SelectListItem>
             {
-                new Course { Year = 2023, Semester = TimeOfYear.Fall, Code = "CS101", Title = "Course1" },
-                new Course { Year = 2023, Semester = TimeOfYear.Spring, Code = "CS102", Title = "Course2" },
-                new Course { Year = 2022, Semester = TimeOfYear.Summer, Code = "CS103", Title = "Course3" }
+                new SelectListItem { Value = "2023", Text = "2023" },
+                new SelectListItem { Value = "2022", Text = "2022" }
             });
 
-            _context.CourseDocuments.AddRange(new List<CourseDocument>
+        _courseServiceMock.Setup(service => service.GetSemestersAsync(2023))
+            .ReturnsAsync(new List<SelectListItem>
             {
-                new CourseDocument { CourseCode = "CS101", Name = "Document1", Document = new Uri("document.pdf", UriKind.RelativeOrAbsolute) },
-                new CourseDocument { CourseCode = "CS102", Name = "Document2", Document = new Uri("anotherdocument.pdf", UriKind.RelativeOrAbsolute) }
+                new SelectListItem { Value = "Spring", Text = "Spring" },
+                new SelectListItem { Value = "Fall", Text = "Fall" }
             });
 
-            _context.SaveChanges();
+        _courseServiceMock.Setup(service => service.GetCourseCodesAsync(2023, TimeOfYear.Fall))
+            .ReturnsAsync(new List<SelectListItem>
+            {
+                new SelectListItem { Value = "CS101", Text = "CS101" },
+                new SelectListItem { Value = "CS102", Text = "CS102" }
+            });
 
-            _pageModel = new ContentModel(_context);
-        }
+        _courseServiceMock.Setup(service => service.GetCourseDocumentsAsync("CS101"))
+            .ReturnsAsync(new List<CourseDocument>
+            {
+                new CourseDocument { CourseCode = "CS101", Name = "Document1", Document = new Uri("document.pdf", UriKind.RelativeOrAbsolute) }
+            });
 
-        [TestMethod]
-        public async Task OnGetAsync_ShouldPopulateYearsSemestersCourseCodesAndDocuments()
-        {
-            // Arrange
-            _pageModel.Year = 2023;
-            _pageModel.Semester = TimeOfYear.Fall;
-            _pageModel.CourseCode = "CS101";
+        _pageModel = new ContentModel(_courseServiceMock.Object);
+    }
 
-            // Act
-            await _pageModel.OnGetAsync();
+    [TestMethod]
+    public async Task OnGetAsync_ShouldPopulateYearsSemestersCourseCodesAndDocuments()
+    {
+        // Arrange
+        _pageModel.Year = 2023;
+        _pageModel.Semester = TimeOfYear.Fall;
+        _pageModel.CourseCode = "CS101";
 
-            // Assert
-            Assert.AreEqual(2, _pageModel.Years.Count);
-            Assert.AreEqual("2023", _pageModel.Years.First().Value);
-            Assert.AreEqual(2, _pageModel.Semesters.Count);
-            Assert.AreEqual("Fall", _pageModel.Semesters.First().Value);
-            Assert.AreEqual(1, _pageModel.CourseCodes.Count);
-            Assert.AreEqual("CS101", _pageModel.CourseCodes.First().Value);
-            Assert.AreEqual(1, _pageModel.CourseDocuments.Count);
-            Assert.AreEqual("Document1", _pageModel.CourseDocuments.First().Name);
-        }
+        // Act
+        await _pageModel.OnGetAsync();
+
+        // Assert
+        Assert.AreEqual(2, _pageModel.Years.Count);
+        Assert.AreEqual(2, _pageModel.Semesters.Count);
+        Assert.AreEqual(2, _pageModel.CourseCodes.Count);
+        Assert.AreEqual(1, _pageModel.CourseDocuments.Count);
     }
 }

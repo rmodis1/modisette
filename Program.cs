@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Modisette.Data;
 using Modisette.Models;
+using Modisette.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +29,10 @@ builder.Services.AddRazorPages(options =>
 builder.Services.AddDbContext<SiteContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("SiteContext") 
     ?? throw new InvalidOperationException("Connection string 'SiteContext' not found.")));
+
+builder.Services.AddScoped<ICourseService, CourseService>();
+builder.Services.AddTransient<ITimelineService, TwitterTimelineService>();
+builder.Services.AddScoped<IContactMessageBuilder, ContactMessageBuilder>();
 
 EmailServerConfiguration emailConfig = builder.Configuration
                          .GetSection("EmailConfiguration")

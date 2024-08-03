@@ -1,4 +1,6 @@
-namespace Modisette.Models;
+using Modisette.Models;
+
+namespace Modisette.Services;
 
 public interface IEmailService
 {
