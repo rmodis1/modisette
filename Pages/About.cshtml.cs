@@ -20,7 +20,7 @@ public class AboutModel : PageModel
 
     public async Task OnGetAsync()
     {
-        EmbeddedTimelineHtml = await GetEmbeddedTimelineAsync("https://twitter.com/VickiModisette");
+        EmbeddedTimelineHtml = await GetEmbeddedTimelineAsync("https://twitter.com/VickiModisette/status/1563983500755230720");
     }
 
     public async Task<string> GetEmbeddedTimelineAsync(string url)
