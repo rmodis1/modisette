@@ -12,13 +12,13 @@ namespace modisette.Pages.Admin.ContentForm
 {
     public class DetailsModel : PageModel
     {
-        private readonly Modisette.Data.SiteContext _context;
+        private readonly ICourseService _courseService;
 
-        public DetailsModel(Modisette.Data.SiteContext context)
+        public DetailsModel(ICourseService courseService)
         {
-            _context = context;
+            _courseService = courseService;
         }
-
+    
         public Course Course { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(string id)
@@ -28,7 +28,8 @@ namespace modisette.Pages.Admin.ContentForm
                 return NotFound();
             }
 
-            var course = await _context.Courses.FirstOrDefaultAsync(m => m.Code == id);
+            var course = await _courseService.GetCourseByCodeAsync(id);
+   
             if (course == null)
             {
                 return NotFound();

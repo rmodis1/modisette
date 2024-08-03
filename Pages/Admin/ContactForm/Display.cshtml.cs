@@ -7,16 +7,17 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Modisette.Models;
 using Modisette.Data;
+using Modisette.Services;
 
 namespace Modisette.Pages.ContactForm
 {
     public class DisplayModel : PageModel
     {
-        private readonly Modisette.Data.SiteContext _context;
+        private readonly IContactService _contactService;
 
-        public DisplayModel(Modisette.Data.SiteContext context)
+        public DisplayModel(IContactService contactService)
         {
-            _context = context;
+            _contactService = contactService;
         }
 
         public IList<Contact> Contacts { get;set; } = default!;
@@ -26,18 +27,8 @@ namespace Modisette.Pages.ContactForm
 
         public async Task OnGetAsync()
         {
-            var contacts = from contact in _context.Contact
-                           select contact;
-            
-            if (!string.IsNullOrEmpty(SearchString))
-            {
-                contacts = contacts.Where(contact => contact.FirstName.Contains(SearchString) || 
-                                                     contact.LastName.Contains(SearchString) || 
-                                                     contact.Message.Contains(SearchString)||
-                                                     contact.Notes.Contains(SearchString));
-            }
-
-            Contacts = await contacts.ToListAsync();
+            Contacts = await _contactService.GetFilteredContactsAsync(SearchString);
+        
         }
 
         public IActionResult OnGetPartial() =>

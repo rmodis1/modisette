@@ -7,16 +7,17 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Modisette.Data;
 using Modisette.Models;
+using Modisette.Services;
 
 namespace modisette.Pages.Admin.ContentForm
 {
     public class DeleteModel : PageModel
     {
-        private readonly Modisette.Data.SiteContext _context;
+        private readonly ICourseService _courseService;
 
-        public DeleteModel(Modisette.Data.SiteContext context)
+        public DeleteModel(ICourseService courseService)
         {
-            _context = context;
+            _courseService = courseService;
         }
 
         [BindProperty]
@@ -29,7 +30,7 @@ namespace modisette.Pages.Admin.ContentForm
                 return NotFound();
             }
 
-            var course = await _context.Courses.FirstOrDefaultAsync(m => m.Code == id);
+            var course = await _courseService.GetCourseByCodeAsync(id);
 
             if (course == null)
             {
@@ -49,13 +50,11 @@ namespace modisette.Pages.Admin.ContentForm
                 return NotFound();
             }
 
-            var courseToDelete = await _context.Courses.SingleOrDefaultAsync(m => m.Code == Course.Code &&
-                                                                                  m.Year == Course.Year &&
-                                                                                  m.Semester == Course.Semester);
+            var courseToDelete = await _courseService.GetCourseAsync(course);
+
             if (courseToDelete != null)
             {
-                _context.Courses.Remove(courseToDelete);
-                await _context.SaveChangesAsync();
+                await _courseService.DeleteCourseAsync(courseToDelete);
             }
 
             return RedirectToPage("./Index");

@@ -8,6 +8,7 @@ using Modisette.Data;
 using Modisette.Pages;
 using Microsoft.EntityFrameworkCore;
 using Modisette.Services;
+using Modisette.Services;
 
 namespace Modisette.Tests
 {
@@ -24,13 +25,11 @@ namespace Modisette.Tests
         {
             _mockEmailService = new Mock<IEmailService>();
             _mockContactMessageBuilder = new Mock<IContactMessageBuilder>();
+            _mockContactMessageBuilder = new Mock<IContactMessageBuilder>();
 
-            // Use an in-memory database for testing
-            var options = new DbContextOptionsBuilder<SiteContext>()
-                .UseInMemoryDatabase(databaseName: "TestDatabase")
-                .Options;
+            _mockContactService = new Mock<IContactService>();
 
-            _context = new SiteContext(options);
+            _contactPageModel = new ContactModel(_mockContactService.Object, _mockEmailService.Object, _mockContactMessageBuilder.Object)
 
             _contactPageModel = new ContactModel(_context, _mockEmailService.Object, _mockContactMessageBuilder.Object)
             {
@@ -50,6 +49,18 @@ namespace Modisette.Tests
         {
             // Arrange
             _contactPageModel.ModelState.Clear();
+
+            var emailMessage = new EmailMessage
+            {
+                FromEmailAddress = new List<EmailAddress> { new EmailAddress { Address = "test@example.com" } },
+                ToEmailAddress = new List<EmailAddress> { new EmailAddress { Address = "test@example.com" } },
+                Content = "Test Content",
+                Subject = "Test Subject"
+            };
+
+            _mockContactMessageBuilder
+                .Setup(builder => builder.BuildMessage(It.IsAny<Contact>()))
+                .Returns(emailMessage);
 
             var emailMessage = new EmailMessage
             {

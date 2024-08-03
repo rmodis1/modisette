@@ -30,7 +30,9 @@ builder.Services.AddDbContext<SiteContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("SiteContext") 
     ?? throw new InvalidOperationException("Connection string 'SiteContext' not found.")));
 
+builder.Services.AddScoped<IContactService, ContactService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
+builder.Services.AddScoped<IFileService, FileService>();
 builder.Services.AddTransient<ITimelineService, TwitterTimelineService>();
 builder.Services.AddScoped<IContactMessageBuilder, ContactMessageBuilder>();
 
@@ -39,9 +41,7 @@ EmailServerConfiguration emailConfig = builder.Configuration
                          .Get<EmailServerConfiguration>();
 
 emailConfig.SmtpPassword = builder.Configuration["SmtpPassword"];
-
 builder.Services.AddSingleton<EmailServerConfiguration>(emailConfig);
-
 builder.Services.AddTransient<IEmailService, MailKitEmailService>();
 
 var emailAddress = builder.Configuration

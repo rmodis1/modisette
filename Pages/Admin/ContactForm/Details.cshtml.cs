@@ -7,16 +7,17 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Modisette.Models;
 using Modisette.Data;
+using Modisette.Services;
 
 namespace modisette.Pages.ContactForm
 {
     public class DetailsModel : PageModel
     {
-        private readonly Modisette.Data.SiteContext _context;
+        private readonly IContactService _contactService;
 
-        public DetailsModel(Modisette.Data.SiteContext context)
+        public DetailsModel(IContactService contactService)
         {
-            _context = context;
+            _contactService = contactService;
         }
 
         public Contact Contact { get; set; } = default!;
@@ -28,7 +29,7 @@ namespace modisette.Pages.ContactForm
                 return NotFound();
             }
 
-            var contact = await _context.Contact.FirstOrDefaultAsync(m => m.Id == id);
+            var contact = await _contactService.GetContactByIdAsync(id);
             if (contact == null)
             {
                 return NotFound();

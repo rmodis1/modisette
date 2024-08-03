@@ -8,14 +8,14 @@ namespace Modisette.Pages;
 public class ContactModel : PageModel
 {
     // Dependency Inversion Principle (DIP): Depend on abstractions (interfaces) rather than concrete implementations.
-    private readonly Modisette.Data.SiteContext _context;
+    private readonly IContactService _contactService;
     private readonly IEmailService _emailService;
     private readonly IContactMessageBuilder _contactMessageBuilder;
 
     // Constructor Injection: Dependencies are injected through the constructor, promoting loose coupling.
-    public ContactModel(Modisette.Data.SiteContext context, IEmailService emailService, IContactMessageBuilder contactMessageBuilder)
+    public ContactModel(IContactService contactService, IEmailService emailService, IContactMessageBuilder contactMessageBuilder)
     {
-        _context = context;
+        _contactService = contactService;
         _emailService = emailService;
         _contactMessageBuilder = contactMessageBuilder;
     }
@@ -31,6 +31,7 @@ public class ContactModel : PageModel
         }
 
         // Single Responsibility Principle (SRP): Delegates the message building responsibility to the IContactMessageBuilder service.
+        // Creates an email message from the contact form data.
         EmailMessage messageToSend = _contactMessageBuilder.BuildMessage(Contact);
 
         try
@@ -43,8 +44,8 @@ public class ContactModel : PageModel
             Console.WriteLine(ex.ToString());
         }
 
-        _context.Contact.Add(Contact);
-        await _context.SaveChangesAsync();
+        // Adds the contact form data to the database.
+        await _contactService.CreateContactAsync(Contact);
 
         return RedirectToPage("./Index");
     }

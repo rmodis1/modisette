@@ -7,17 +7,17 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Modisette.Models;
-using Modisette.Data;
+using Modisette.Services;
 
 namespace modisette.Pages.ContactForm
 {
     public class EditModel : PageModel
     {
-        private readonly Modisette.Data.SiteContext _context;
+        private readonly IContactService _contactService;
 
-        public EditModel(Modisette.Data.SiteContext context)
+        public EditModel(IContactService contactService)
         {
-            _context = context;
+            _contactService = contactService;
         }
 
         [BindProperty]
@@ -30,7 +30,7 @@ namespace modisette.Pages.ContactForm
                 return NotFound();
             }
 
-            var contact =  await _context.Contact.FirstOrDefaultAsync(m => m.Id == id);
+            var contact =  await _contactService.GetContactByIdAsync(id);
             if (contact == null)
             {
                 return NotFound();
@@ -47,15 +47,13 @@ namespace modisette.Pages.ContactForm
                 return Page();
             }
 
-            _context.Attach(Contact).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                await _contactService.UpdateContactAsync(Contact);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ContactExists(Contact.Id))
+                if (!(await _contactService.ContactExistsAsync(Contact.Id)))
                 {
                     return NotFound();
                 }
@@ -66,11 +64,6 @@ namespace modisette.Pages.ContactForm
             }
 
             return RedirectToPage("./Display");
-        }
-
-        private bool ContactExists(int id)
-        {
-            return _context.Contact.Any(e => e.Id == id);
         }
     }
 }
