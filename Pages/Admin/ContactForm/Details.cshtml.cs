@@ -9,6 +9,7 @@ using Modisette.Models;
 using Modisette.Data;
 using Modisette.Services;
 
+
 namespace modisette.Pages.ContactForm
 {
     public class DetailsModel : PageModel
