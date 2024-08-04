@@ -3,16 +3,21 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Modisette.Models;
+using Modisette.Services;
 
 namespace Modisette.Pages;
 
 public class ContentModel : PageModel
 {
-    private readonly Modisette.Data.SiteContext _context;
+    // Dependency Inversion Principle (DIP): Depend on abstractions (ICourseService) rather than concrete implementations.
+    private readonly ICourseService _courseService;
+    private readonly IFileService _fileService;
 
-    public ContentModel(Modisette.Data.SiteContext context)
+     // Constructor Injection: Follows the Dependency Injection principle, which is part of DIP.
+    public ContentModel(ICourseService courseService, IFileService fileService)
     {
-        _context = context;
+        _courseService = courseService;
+        _fileService = fileService;
     }
 
     [BindProperty(SupportsGet = true)]
@@ -29,13 +34,12 @@ public class ContentModel : PageModel
     public List<SelectListItem> CourseCodes { get; set; }
     public List<CourseDocument> CourseDocuments { get; set; }
 
+    // Single Responsibility Principle (SRP): The OnGetAsync method is responsible for handling the GET request and populating the properties.
+    // Open/Closed Principle (OCP): The method is open for extension (via ICourseService) but closed for modification.
     public async Task OnGetAsync()
     {
-        Years = await _context.Courses.Select(c => new SelectListItem
-        {
-            Value = c.Year.ToString(),
-            Text = c.Year.ToString()
-        }).Distinct().ToListAsync();
+        //By using a service to retrieve data, we abstract unnecessary responsibility from the page model, following the SRP.
+        Years = await _courseService.GetYearsAsync();
 
         Semesters = new List<SelectListItem>();
         CourseCodes = new List<SelectListItem>();
@@ -43,29 +47,17 @@ public class ContentModel : PageModel
 
         if (Year.HasValue)
         {
-            Semesters = await _context.Courses
-                .Where(c => c.Year == Year.Value)
-                .Select(c => c.Semester)
-                .Distinct()
-                .Select(s => new SelectListItem { Value = s.ToString(), Text = s.ToString() })
-                .ToListAsync();
+            Semesters = await _courseService.GetSemestersAsync(Year.Value);
         }
 
         if (Year.HasValue && Semester.HasValue)
         {
-            CourseCodes = await _context.Courses
-                .Where(c => c.Year == Year.Value && c.Semester == Semester.Value)
-                .Select(c => c.Code)
-                .Distinct()
-                .Select(cc => new SelectListItem { Value = cc, Text = cc })
-                .ToListAsync();
+            CourseCodes = await _courseService.GetCourseCodesAsync(Year.Value, Semester.Value);
         }
 
         if (!string.IsNullOrEmpty(CourseCode))
         {
-            CourseDocuments = await _context.CourseDocuments
-                .Where(cd => cd.CourseCode == CourseCode)
-                .ToListAsync();
+           CourseDocuments = await _fileService.GetCourseDocumentsAsync(CourseCode);
         }
     }
 }

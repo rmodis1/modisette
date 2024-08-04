@@ -1,62 +1,36 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.DotNet.MSIdentity.Shared;
-using Newtonsoft.Json;
 
 namespace Modisette.Pages;
 public class AboutModel : PageModel
 {
-    private readonly ILogger<IndexModel> _logger;
-    private readonly IHttpClientFactory _httpClientFactory;
+    // The AboutModel class follows the Single Responsibility Principle (SRP) by focusing on handling the About page's data and behavior.
+    private readonly ITimelineService _twitterTimelineService;
 
-    public AboutModel(ILogger<IndexModel> logger, IHttpClientFactory httpClientFactory)
+    // The constructor demonstrates Dependency Injection, adhering to the Dependency Inversion Principle (DIP).
+    // It depends on an abstraction (ITimelineService) rather than a concrete implementation.
+    public AboutModel(ITimelineService twitterTimelineService)
     {
-        _logger = logger;
-        _httpClientFactory = httpClientFactory;
+        _twitterTimelineService = twitterTimelineService;
     }
 
     [BindProperty]
     public string EmbeddedTimelineHtml { get; private set; }
 
+    // The OnGetAsync method follows the Interface Segregation Principle (ISP) by using a specific method from the ITimelineService interface.
+    // This method also adheres to the SRP by focusing solely on fetching and setting the embedded timeline HTML.
     public async Task OnGetAsync()
     {
-        EmbeddedTimelineHtml = await GetEmbeddedTimelineAsync("https://twitter.com/VickiModisette/status/1563983500755230720");
-    }
-
-    public async Task<string> GetEmbeddedTimelineAsync(string url)
-    {
-        var requestUrl = $"https://publish.twitter.com/oembed?url={url}&omit_script=true";
-        var httpClient = _httpClientFactory.CreateClient();
-        try
-        {
-            var response = await httpClient.GetAsync(requestUrl);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                // Handle the error response 
-                throw new HttpRequestException($"Request to Twitter oEmbed API failed with status code {response.StatusCode}");
-            }
-            var responseContent = await response.Content.ReadAsStringAsync();
-
-            string oEmbedResponseHtml;
-            using (var jsonReader = new JsonTextReader(new StringReader(responseContent)))
-            {
-                var serializer = new JsonSerializer();
-                var oEmbedResponse = serializer.Deserialize<TwitterOEmbedResponse>(jsonReader);
-                oEmbedResponseHtml = oEmbedResponse.Html;
-            }
-
-            return oEmbedResponseHtml;
-        }
-        catch (HttpRequestException ex)
-        {
-            return $"An error occurred while fetching the Twitter timeline: {ex.Message}";
-        }
+        // The use of ITimelineService here ensures that the AboutModel class is open for extension but closed for modification,
+        // following the Open/Closed Principle (OCP). Any changes to the timeline fetching logic can be made in the service implementation
+        // without modifying this class.
+        EmbeddedTimelineHtml = await _twitterTimelineService.GetEmbeddedTimelineAsync("https://twitter.com/VickiModisette/status/1563983500755230720");
     }
 }
 
+// The TwitterOEmbedResponse class is a simple data transfer object (DTO) that follows the SRP by only containing data related to the Twitter OEmbed response.
 public class TwitterOEmbedResponse
 {
-    public string Html { get; set; }
+    public string? Html { get; set; }
 }
 

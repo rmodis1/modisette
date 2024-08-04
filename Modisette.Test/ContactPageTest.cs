@@ -7,6 +7,7 @@ using Modisette.Models;
 using Modisette.Data;
 using Modisette.Pages;
 using Microsoft.EntityFrameworkCore;
+using Modisette.Services;
 
 namespace Modisette.Tests
 {
@@ -14,7 +15,7 @@ namespace Modisette.Tests
     public class ContactPageModelTest
     {
         private Mock<IEmailService> _mockEmailService;
-        private Mock<EmailAddress> _mockEmailAddress;
+        private Mock<IContactMessageBuilder> _mockContactMessageBuilder;
         private SiteContext _context;
         private ContactModel _contactPageModel;
 
@@ -22,7 +23,7 @@ namespace Modisette.Tests
         public void TestInitialize()
         {
             _mockEmailService = new Mock<IEmailService>();
-            _mockEmailAddress = new Mock<EmailAddress>();
+            _mockContactMessageBuilder = new Mock<IContactMessageBuilder>();
 
             // Use an in-memory database for testing
             var options = new DbContextOptionsBuilder<SiteContext>()
@@ -31,7 +32,7 @@ namespace Modisette.Tests
 
             _context = new SiteContext(options);
 
-            _contactPageModel = new ContactModel(_context, _mockEmailAddress.Object, _mockEmailService.Object)
+            _contactPageModel = new ContactModel(_context, _mockEmailService.Object, _mockContactMessageBuilder.Object)
             {
                 Contact = new Contact
                 {
@@ -50,6 +51,18 @@ namespace Modisette.Tests
             // Arrange
             _contactPageModel.ModelState.Clear();
 
+            var emailMessage = new EmailMessage
+            {
+                FromEmailAddress = new List<EmailAddress> { new EmailAddress { Address = "test@example.com" } },
+                ToEmailAddress = new List<EmailAddress> { new EmailAddress { Address = "test@example.com" } },
+                Content = "Test Content",
+                Subject = "Test Subject"
+            };
+
+            _mockContactMessageBuilder
+                .Setup(builder => builder.BuildMessage(It.IsAny<Contact>()))
+                .Returns(emailMessage);
+
             // Act
             var result = await _contactPageModel.OnPostAsync();
 
@@ -59,6 +72,7 @@ namespace Modisette.Tests
             Assert.AreEqual("./Index", redirectToPageResult.PageName);
 
             _mockEmailService.Verify(service => service.Send(It.IsAny<EmailMessage>()), Times.Once);
+            _mockContactMessageBuilder.Verify(builder => builder.BuildMessage(It.IsAny<Contact>()), Times.Once);
             Assert.AreEqual(1, await _context.Contact.CountAsync());
         }
     }

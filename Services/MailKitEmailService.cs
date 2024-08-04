@@ -1,8 +1,9 @@
 using MailKit.Security;
 using Microsoft.VisualBasic;
 using MimeKit;
+using Modisette.Models;
 
-namespace Modisette.Models;
+namespace Modisette.Services;
 
 public class MailKitEmailService: IEmailService
 {

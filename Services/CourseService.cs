@@ -1,22 +1,17 @@
-using System.Runtime.CompilerServices;
-using System.Security.Policy;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Modisette.Data;
 using Modisette.Models;
-using Modisette.Repositories;
 
 namespace Modisette.Services;
 
 public class CourseService : ICourseService
 {
-    private readonly SiteContext _context;
+    private readonly Modisette.Data.SiteContext _context;
 
-    public CourseService(SiteContext context)
+    public CourseService(Modisette.Data.SiteContext context)
     {
         _context = context;
     }
- 
     public async Task<List<SelectListItem>> GetYearsAsync()
     {
         return await _context.Courses.Select(c => new SelectListItem
@@ -44,13 +39,6 @@ public class CourseService : ICourseService
             .Select(course => course.Code)
             .Distinct()
             .Select(courses => new SelectListItem { Value = courses, Text = courses })
-            .ToListAsync();
-    }
-
-    public async Task<List<CourseDocument>> GetCourseDocumentsAsync(string courseCode)
-    {
-        return await _context.CourseDocuments
-            .Where(file => file.CourseCode == courseCode)
             .ToListAsync();
     }
 
@@ -87,8 +75,28 @@ public class CourseService : ICourseService
         await _context.SaveChangesAsync();
     }
 
-    public async Task<bool> CourseExistsAsync(string courseCode)
+    public Task<List<CourseDocument>> GetCourseDocumentsAsync(string courseCode)
     {
-        return await _context.CourseExistsAsync(courseCode);
+        throw new NotImplementedException();
+    }
+
+    public Task AddCourseAsync(Course course)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> CourseExistsAsync(string courseCode)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<List<Course>> GetCoursesAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<bool> UpdateCourseAsync(Course course)
+    {
+        throw new NotImplementedException();
     }
 }

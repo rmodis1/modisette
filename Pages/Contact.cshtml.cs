@@ -1,33 +1,28 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Modisette.Models;
-
+using Modisette.Services;
 
 namespace Modisette.Pages;
 
 public class ContactModel : PageModel
 {
+    // Dependency Inversion Principle (DIP): Depend on abstractions (interfaces) rather than concrete implementations.
     private readonly Modisette.Data.SiteContext _context;
-    private readonly EmailAddress _FromAndToEmailAddress;
-    private readonly IEmailService _EmailService;
+    private readonly IEmailService _emailService;
+    private readonly IContactMessageBuilder _contactMessageBuilder;
 
-    public ContactModel(Modisette.Data.SiteContext context, EmailAddress fromAndToEmailAddress, IEmailService emailService)
+    // Constructor Injection: Dependencies are injected through the constructor, promoting loose coupling.
+    public ContactModel(Modisette.Data.SiteContext context, IEmailService emailService, IContactMessageBuilder contactMessageBuilder)
     {
         _context = context;
-        _FromAndToEmailAddress = fromAndToEmailAddress;
-        _EmailService = emailService;
-    }
-
-
-    public IActionResult OnGet()
-    {
-        return Page();
+        _emailService = emailService;
+        _contactMessageBuilder = contactMessageBuilder;
     }
 
     [BindProperty]
     public Contact Contact { get; set; } = default!;
 
-    // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
     public async Task<IActionResult> OnPostAsync()
     {
         if (!ModelState.IsValid)
@@ -35,19 +30,13 @@ public class ContactModel : PageModel
             return Page();
         }
 
-        EmailMessage messageToSend = new EmailMessage
-        {
-            FromEmailAddress = new List<EmailAddress> { _FromAndToEmailAddress },
-            ToEmailAddress = new List<EmailAddress> { _FromAndToEmailAddress },
-            Content = $"Someone just contacted you through your website!\n" +
-            $"Name: {Contact.FirstName} {Contact.LastName}\n" +
-            $"Email: {Contact.Email}\n" +
-            $"Message: {Contact.Message}",
-            Subject = "Contact Form"
-        };
+        // Single Responsibility Principle (SRP): Delegates the message building responsibility to the IContactMessageBuilder service.
+        EmailMessage messageToSend = _contactMessageBuilder.BuildMessage(Contact);
+
         try
         {
-            await _EmailService.Send(messageToSend);
+            // Single Responsibility Principle (SRP): Delegates the email sending responsibility to the IEmailService service.
+            await _emailService.Send(messageToSend);
         }
         catch (Exception ex)
         {
