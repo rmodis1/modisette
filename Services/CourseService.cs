@@ -1,14 +1,15 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Modisette.Data;
 using Modisette.Models;
 
 namespace Modisette.Services;
 
 public class CourseService : ICourseService
 {
-    private readonly Modisette.Data.SiteContext _context;
+    private readonly SiteContext _context;
 
-    public CourseService(Modisette.Data.SiteContext context)
+    public CourseService(SiteContext context, IWebHostEnvironment webHostEnvironment)
     {
         _context = context;
     }

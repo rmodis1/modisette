@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Modisette.Models;
-using Modisette.Repositories;
 using Modisette.Services;
 
 namespace Modisette.Pages;

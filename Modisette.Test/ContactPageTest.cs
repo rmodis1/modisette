@@ -17,7 +17,7 @@ namespace Modisette.Tests
     {
         private Mock<IEmailService> _mockEmailService;
         private Mock<IContactMessageBuilder> _mockContactMessageBuilder;
-        private SiteContext _context;
+        private Mock<IContactService> _mockContactService;
         private ContactModel _contactPageModel;
 
         [TestInitialize]
@@ -25,13 +25,9 @@ namespace Modisette.Tests
         {
             _mockEmailService = new Mock<IEmailService>();
             _mockContactMessageBuilder = new Mock<IContactMessageBuilder>();
-            _mockContactMessageBuilder = new Mock<IContactMessageBuilder>();
-
             _mockContactService = new Mock<IContactService>();
 
             _contactPageModel = new ContactModel(_mockContactService.Object, _mockEmailService.Object, _mockContactMessageBuilder.Object)
-
-            _contactPageModel = new ContactModel(_context, _mockEmailService.Object, _mockContactMessageBuilder.Object)
             {
                 Contact = new Contact
                 {
@@ -84,7 +80,7 @@ namespace Modisette.Tests
 
             _mockEmailService.Verify(service => service.Send(It.IsAny<EmailMessage>()), Times.Once);
             _mockContactMessageBuilder.Verify(builder => builder.BuildMessage(It.IsAny<Contact>()), Times.Once);
-            Assert.AreEqual(1, await _context.Contact.CountAsync());
+            _mockContactService.Verify(service => service.CreateContactAsync(It.IsAny<Contact>()), Times.Once);
         }
     }
 }
