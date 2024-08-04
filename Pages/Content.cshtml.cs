@@ -11,11 +11,13 @@ public class ContentModel : PageModel
 {
     // Dependency Inversion Principle (DIP): Depend on abstractions (ICourseService) rather than concrete implementations.
     private readonly ICourseService _courseService;
+    private readonly IFileService _fileService;
 
      // Constructor Injection: Follows the Dependency Injection principle, which is part of DIP.
-    public ContentModel(ICourseService courseService)
+    public ContentModel(ICourseService courseService, IFileService fileService)
     {
         _courseService = courseService;
+        _fileService = fileService;
     }
 
     [BindProperty(SupportsGet = true)]
@@ -55,7 +57,7 @@ public class ContentModel : PageModel
 
         if (!string.IsNullOrEmpty(CourseCode))
         {
-           CourseDocuments = await _courseService.GetCourseDocumentsAsync(CourseCode);
+           CourseDocuments = await _fileService.GetCourseDocumentsAsync(CourseCode);
         }
     }
 }

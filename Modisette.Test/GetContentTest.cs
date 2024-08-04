@@ -8,12 +8,14 @@ using Modisette.Models;
 public class GetContentTest
 {
     private Mock<ICourseService> _courseServiceMock;
+    private Mock<IFileService> _fileServiceMock;
     private ContentModel _pageModel;
 
     [TestInitialize]
     public void Setup()
     {
         _courseServiceMock = new Mock<ICourseService>();
+        _fileServiceMock = new Mock<IFileService>();
 
         _courseServiceMock.Setup(service => service.GetYearsAsync())
             .ReturnsAsync(new List<SelectListItem>
@@ -35,14 +37,15 @@ public class GetContentTest
                 new SelectListItem { Value = "CS101", Text = "CS101" },
                 new SelectListItem { Value = "CS102", Text = "CS102" }
             });
+            
 
-        _courseServiceMock.Setup(service => service.GetCourseDocumentsAsync("CS101"))
+        _fileServiceMock.Setup(service => service.GetCourseDocumentsAsync("CS101"))
             .ReturnsAsync(new List<CourseDocument>
             {
                 new CourseDocument { CourseCode = "CS101", Name = "Document1", Document = new Uri("document.pdf", UriKind.RelativeOrAbsolute) }
             });
 
-        _pageModel = new ContentModel(_courseServiceMock.Object);
+        _pageModel = new ContentModel(_courseServiceMock.Object, _fileServiceMock.Object);
     }
 
     [TestMethod]

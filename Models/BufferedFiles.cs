@@ -12,12 +12,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Modisette.Data;
 using Modisette.Models;
 
-namespace modisette.Pages.Admin.ContentForm
-{
+namespace Modisette.Models;
+
 public class BufferedFiles
 {
     [Required]
     [Display(Name = "File")]
     public List<IFormFile> FormFiles { get; set; }
-}
 }

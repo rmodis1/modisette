@@ -1,17 +1,19 @@
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
+using Modisette.Data;
 using Modisette.Models;
-using Modisette.Repositories;
 
 namespace Modisette.Services;
 
 public class FileService : IFileService
 {
     private readonly IWebHostEnvironment _webHostEnvironment;
-    private readonly ICourseService _courseService;
+    private readonly SiteContext _context;
 
-    public FileService(IWebHostEnvironment webHostEnvironment, ICourseService courseService)
+    public FileService(IWebHostEnvironment webHostEnvironment, SiteContext context)
     {
         _webHostEnvironment = webHostEnvironment;
-        _courseService = courseService;
+        _context = context;
     }
 
     public async Task UploadFilesAsync(BufferedFiles files, Course course)
@@ -38,22 +40,35 @@ public class FileService : IFileService
                     Document = new Uri(fileName, UriKind.Relative)
                 };
 
-                await _courseService.AddCourseDocumentAsync(courseDocument);
+                await _context.CourseDocuments.AddAsync(courseDocument);
             }
         }
+        await _context.SaveChangesAsync();
     }
-    public async Task<bool> DeleteFileAsync(int fileId)
+    public async Task DeleteFileAsync(CourseDocument courseDocument)
     {
-        var file = await _courseService.CourseDocuments.FindAsync(fileId);
+        _context.CourseDocuments.Remove(courseDocument);
+        await _context.SaveChangesAsync();
+    }
 
-        if (file == null)
-        {
-            return false;
-        }
 
-        _courseService.CourseDocuments.Remove(file);
-        await _courseService.SaveChangesAsync();
+    public async Task<List<CourseDocument>> GetCourseDocumentsAsync(string courseCode)
+    {
+        return await _context.CourseDocuments
+            .Where(cd => cd.CourseCode == courseCode)
+            .ToListAsync();
+    }
 
-        return true;
+    public async Task<List<CourseDocument>> GetCourseDocumentsAsync(Course course)
+    {
+        return await _context.CourseDocuments.Where(cd => cd.CourseCode == course.Code && 
+                                                   cd.CourseYear == course.Year && 
+                                               cd.CourseSemester == course.Semester
+                                                        ).ToListAsync();
+    }
+
+    public async Task<CourseDocument> GetCourseDocumentAsync(int fileId)
+    {
+        return await _context.CourseDocuments.FindAsync(fileId);
     }
 }

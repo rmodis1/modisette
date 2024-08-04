@@ -12,18 +12,18 @@ namespace modisette.Pages.Admin.ContentForm
 {
     public class IndexModel : PageModel
     {
-        private readonly Modisette.Data.SiteContext _context;
+        private readonly ICourseService _courseService;
 
-        public IndexModel(Modisette.Data.SiteContext context)
+        public IndexModel(ICourseService courseService)
         {
-            _context = context;
+            _courseService = courseService;
         }
 
         public IList<Course> Course { get;set; } = default!;
 
         public async Task OnGetAsync()
         {
-            Course = await _context.Courses.ToListAsync();
+            Course = await _courseService.GetCoursesAsync();
         }
     }
 }

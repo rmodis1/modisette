@@ -1,7 +1,7 @@
 using Modisette.Models;
 using Modisette.Services;
 
-namespace Modisette.Repositories;
+namespace Modisette.Services;
 
 public interface IContactService
 {

@@ -1,21 +1,15 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Modisette.Data;
 using Modisette.Models;
 
 namespace Modisette.Services;
-public interface ICourseService
-{
-    Task<List<SelectListItem>> GetYearsAsync();
-    Task<List<SelectListItem>> GetSemestersAsync(int year);
-    Task<List<SelectListItem>> GetCourseCodesAsync(int year, TimeOfYear semester);
-    Task<List<CourseDocument>> GetCourseDocumentsAsync(string courseCode);
-}
 
 public class CourseService : ICourseService
 {
-    private readonly Modisette.Data.SiteContext _context;
+    private readonly SiteContext _context;
 
-    public CourseService(Modisette.Data.SiteContext context)
+    public CourseService(SiteContext context, IWebHostEnvironment webHostEnvironment)
     {
         _context = context;
     }
@@ -49,10 +43,59 @@ public class CourseService : ICourseService
             .ToListAsync();
     }
 
-    public async Task<List<CourseDocument>> GetCourseDocumentsAsync(string courseCode)
+     public async Task<List<Course>> GetCoursesAsync()
     {
-        return await _context.CourseDocuments
-            .Where(cd => cd.CourseCode == courseCode)
-            .ToListAsync();
+        return await _context.Courses.ToListAsync();
+    }
+
+    public async Task<Course?> GetCourseByCodeAsync(string code)
+    {
+        return await _context.Courses.FirstOrDefaultAsync(course => course.Code == code);
+    }
+
+    public async Task<Course?> GetCourseAsync(Course course)
+    {
+        return await _context.Courses.SingleOrDefaultAsync(m => m.Code == course.Code &&
+                                                                m.Year == course.Year &&
+                                                            m.Semester == course.Semester);
+    }
+
+    public async Task AddCourseAsync(Course course)    
+    {
+        _context.Courses.Add(course);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<bool> UpdateCourseAsync(Course course)
+    {
+        _context.Attach(course).State = EntityState.Modified;
+
+        try
+        {
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!(await CourseExistsAsync(course.Code)))
+            {
+                return false;
+            }
+            else
+            {
+                throw;
+            }
+        }
+    }
+
+    public async Task<bool> CourseExistsAsync(string code)
+    {
+        return await _context.Courses.AnyAsync(e => e.Code == code);
+    }
+
+    public async Task DeleteCourseAsync(Course courseToDelete)
+    {
+        _context.Courses.Remove(courseToDelete);
+        await _context.SaveChangesAsync();
     }
 }

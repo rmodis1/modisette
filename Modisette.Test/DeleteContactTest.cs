@@ -5,34 +5,36 @@ using Modisette.Data;
 using Modisette.Models;
 using System.Threading.Tasks;
 using modisette.Pages.ContactForm;
+using Moq;
+using Modisette.Services;
 
 namespace Modisette.Tests
 {
     [TestClass]
     public class DeletePageTests
     {
-        private SiteContext _context;
+        private Mock<Modisette.Services.IContactService> _mockContactService;
         private DeleteModel _pageModel;
 
         [TestInitialize]
         public void Setup()
         {
-            var options = new DbContextOptionsBuilder<SiteContext>()
-                .UseInMemoryDatabase(databaseName: "AnotherTestDatabase")
-                .Options;
+             _mockContactService = new Mock<Modisette.Services.IContactService>();
 
-            _context = new SiteContext(options);
-
-            // Seed the in-memory database with test data
-            _context.Contact.AddRange(new List<Contact>
+            var contacts = new List<Contact>
             {
-                new Contact { FirstName = "John", LastName = "Doe", Email = "john@example.com", PhoneNumber = "555-555-5555", Message = "Hello!" },
-                new Contact { FirstName = "Jane", LastName = "Doe", Email = "jane@example.com", PhoneNumber = "123-456-7890", Message = "Howdy!" }
-            });
+                new Contact { Id = 1, FirstName = "John", LastName = "Doe", Email = "john@example.com", PhoneNumber = "555-555-5555", Message = "Hello!" },
+                new Contact { Id = 2, FirstName = "Jane", LastName = "Doe", Email = "jane@example.com", PhoneNumber = "123-456-7890", Message = "Howdy!" }
+            };
 
-            _context.SaveChanges();
+            _mockContactService.Setup(service => service.GetContactByIdAsync(It.IsAny<int>()))
+            .ReturnsAsync((int id) => contacts.Find(c => c.Id == id));
 
-            _pageModel = new DeleteModel(_context);
+            _mockContactService.Setup(service => service.DeleteContactAsync(It.IsAny<Contact>()))
+                .Callback<Contact>(contact => contacts.RemoveAll(c => c.Id == contact.Id))
+                .Returns(Task.CompletedTask);
+
+            _pageModel = new DeleteModel(_mockContactService.Object);
         }
 
         [TestMethod]
@@ -47,7 +49,8 @@ namespace Modisette.Tests
             // Assert
             Assert.IsInstanceOfType(result, typeof(RedirectToPageResult));
             Assert.AreEqual("./Display", ((RedirectToPageResult)result).PageName);
-            Assert.IsNull(await _context.Contact.FindAsync(validId));
+            _mockContactService.Verify(service => service.DeleteContactAsync(It.IsAny<Contact>()), Times.Once);
+            _mockContactService.Verify(service => service.GetContactByIdAsync(validId), Times.Once);
         }
 
         [TestMethod]

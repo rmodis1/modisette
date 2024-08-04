@@ -10,18 +10,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Modisette.Data;
 using Modisette.Models;
+using Modisette.Services;
 
 namespace modisette.Pages.Admin.ContentForm
 {
     public class EditModel : PageModel
     {
-        private readonly Modisette.Data.SiteContext _context;
-        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly ICourseService _courseService;
+        private readonly IFileService _fileService;
 
-        public EditModel(Modisette.Data.SiteContext context, IWebHostEnvironment webHostEnvironment)
+        public EditModel(ICourseService courseService, IFileService fileService)
         {
-            _context = context;
-            _webHostEnvironment = webHostEnvironment;
+            _courseService = courseService;
+            _fileService = fileService;
         }
         [BindProperty]
         public IList<CourseDocument> Documents { get;set; } = default!;
@@ -38,17 +39,15 @@ namespace modisette.Pages.Admin.ContentForm
                 return NotFound();
             }
 
-            var course =  await _context.Courses.FirstOrDefaultAsync(m => m.Code == id);
+            var course =  await _courseService.GetCourseByCodeAsync(id);
+
             if (course == null)
             {
                 return NotFound();
             }
             Course = course;
 
-            Documents = await _context.CourseDocuments.Where(cd => cd.CourseCode == course.Code && 
-                                                                   cd.CourseYear == course.Year && 
-                                                                   cd.CourseSemester == course.Semester
-                                                            ).ToListAsync();
+            Documents = await _fileService.GetCourseDocumentsAsync(course);
             
             return Page();
         }
@@ -62,69 +61,21 @@ namespace modisette.Pages.Admin.ContentForm
                 return Page();
             }
 
-            _context.Attach(Course).State = EntityState.Modified;
+            var updateResult = await _courseService.UpdateCourseAsync(Course);
 
-            try
+            if (!updateResult)
             {
-                await _context.SaveChangesAsync();
-                await OnPostUploadAsync(Course);
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CourseExists(Course.Code))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+
+            await _fileService.UploadFilesAsync(Files, Course);
 
             return RedirectToPage("./Index");
         }
 
-        private bool CourseExists(string id)
-        {
-            return _context.Courses.Any(e => e.Code == id);
-        }
-
-        public async Task OnPostUploadAsync(Course course)
-        {
-            foreach (var formFile in Files.FormFiles)
-            {
-                if (formFile.Length > 0)
-                {
-                    var fileName = Path.GetFileName(formFile.FileName);
-                    // var trustedFileNameForFileStorage = Path.GetRandomFileName();
-                    var uploads = Path.Combine(_webHostEnvironment.WebRootPath, "Uploads");
-                    var filePath = Path.Combine(uploads, fileName);
-
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await formFile.CopyToAsync(stream);
-                    }
-
-                    var courseDocument = new CourseDocument
-                    {
-                        CourseCode = course.Code,
-                        CourseYear = course.Year,
-                        CourseSemester = course.Semester,
-                        Name = fileName,
-                        Document = new Uri(fileName, UriKind.Relative)
-                    };
-
-                    _context.CourseDocuments.Add(courseDocument);
-                }
-            }
-
-            await _context.SaveChangesAsync();
-
-        }
-
          public async Task<IActionResult> OnPostDeleteFileAsync(int fileId)
         {
-            var file = await _context.CourseDocuments.FindAsync(fileId);
+            var file = await _fileService.GetCourseDocumentAsync(fileId);
 
             if (file == null)
             {
@@ -133,8 +84,7 @@ namespace modisette.Pages.Admin.ContentForm
 
             if (file != null)
             {
-                _context.CourseDocuments.Remove(file);
-                await _context.SaveChangesAsync();
+                await _fileService.DeleteFileAsync(file);
             }
 
             return RedirectToPage("./Index");

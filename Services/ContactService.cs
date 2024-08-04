@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Modisette.Data;
 using Modisette.Models;
 
-namespace Modisette.Repositories;
+namespace Modisette.Services;
 
 public class ContactService : IContactService
 {
