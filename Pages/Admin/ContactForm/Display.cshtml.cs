@@ -16,6 +16,8 @@ namespace Modisette.Pages.ContactForm
     {
         private readonly IContactService _contactService;
 
+        // The constructor demonstrates Dependency Injection, adhering to the Dependency Inversion Principle (DIP).
+        // It depends on an abstraction (IContactService) rather than a concrete implementation.
         public DisplayModel(IContactService contactService)
         {
             _contactService = contactService;
@@ -29,7 +31,6 @@ namespace Modisette.Pages.ContactForm
         public async Task OnGetAsync()
         {
             Contacts = await _contactService.GetFilteredContactsAsync(SearchString);
-        
         }
 
         public IActionResult OnGetPartial() =>

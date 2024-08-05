@@ -1,6 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Modisette.Models;
@@ -8,17 +7,16 @@ using Modisette.Data;
 using Modisette.Pages;
 using Microsoft.EntityFrameworkCore;
 using Modisette.Services;
-using Modisette.Services;
 
 namespace Modisette.Tests
 {
     [TestClass]
     public class ContactPageModelTest
     {
-        private Mock<IEmailService> _mockEmailService;
-        private Mock<IContactMessageBuilder> _mockContactMessageBuilder;
-        private Mock<IContactService> _mockContactService;
-        private ContactModel _contactPageModel;
+        private Mock<IEmailService>? _mockEmailService;
+        private Mock<IContactMessageBuilder>? _mockContactMessageBuilder;
+        private Mock<IContactService>? _mockContactService;
+        private ContactModel? _contactPageModel;
 
         [TestInitialize]
         public void TestInitialize()
@@ -58,17 +56,6 @@ namespace Modisette.Tests
                 .Setup(builder => builder.BuildMessage(It.IsAny<Contact>()))
                 .Returns(emailMessage);
 
-            var emailMessage = new EmailMessage
-            {
-                FromEmailAddress = new List<EmailAddress> { new EmailAddress { Address = "test@example.com" } },
-                ToEmailAddress = new List<EmailAddress> { new EmailAddress { Address = "test@example.com" } },
-                Content = "Test Content",
-                Subject = "Test Subject"
-            };
-
-            _mockContactMessageBuilder
-                .Setup(builder => builder.BuildMessage(It.IsAny<Contact>()))
-                .Returns(emailMessage);
 
             // Act
             var result = await _contactPageModel.OnPostAsync();

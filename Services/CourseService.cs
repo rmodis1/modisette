@@ -9,10 +9,22 @@ public class CourseService : ICourseService
 {
     private readonly SiteContext _context;
 
-    public CourseService(SiteContext context, IWebHostEnvironment webHostEnvironment)
+    public CourseService(SiteContext context)
     {
         _context = context;
     }
+
+    public async Task AddCourseAsync(Course course)
+    {
+          if (course == null)
+        {
+        throw new ArgumentNullException(nameof(course));
+        }
+
+        await _context.Courses.AddAsync(course);
+        await _context.SaveChangesAsync();
+    }
+
     public async Task<List<SelectListItem>> GetYearsAsync()
     {
         return await _context.Courses.Select(c => new SelectListItem
@@ -55,7 +67,31 @@ public class CourseService : ICourseService
                                                                 m.Semester == course.Semester);
     }
 
-    public async Task DeleteCourseAsync(Course course)
+    public async Task<List<Course>> GetCoursesAsync()
+    {
+        return await _context.Courses.ToListAsync();
+    }
+
+    public async Task<bool> UpdateCourseAsync(Course course)
+    {
+        if (course == null)
+        {
+            throw new ArgumentNullException(nameof(course));
+        }
+
+        _context.Attach(course).State = EntityState.Modified;
+        try
+        {
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        catch (DbUpdateException)
+        {
+            return false;
+        }
+    }
+
+      public async Task DeleteCourseAsync(Course course)
     {
         var courseToDelete = await GetCourseAsync(course);
         if (courseToDelete != null)
@@ -63,41 +99,5 @@ public class CourseService : ICourseService
             _context.Courses.Remove(courseToDelete);
             await _context.SaveChangesAsync();
         }
-    }
-
-    public async Task UpdateAsync(Course course)
-    {
-        _context.Attach(course).State = EntityState.Modified;
-        await _context.SaveChangesAsync();
-    }
-    public async Task SaveCourseAsync(Course course)
-    {
-        _context.Update(course);
-        await _context.SaveChangesAsync();
-    }
-
-    public Task<List<CourseDocument>> GetCourseDocumentsAsync(string courseCode)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task AddCourseAsync(Course course)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<bool> CourseExistsAsync(string courseCode)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<List<Course>> GetCoursesAsync()
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<bool> UpdateCourseAsync(Course course)
-    {
-        throw new NotImplementedException();
     }
 }

@@ -17,8 +17,6 @@ builder.Services
 
 builder.Services.AddHttpClient();
 
-builder.Services.AddMvc();
-
 builder.Services.AddRazorPages(options =>
 {
     options.Conventions.AuthorizeFolder("/Admin")
@@ -41,7 +39,7 @@ EmailServerConfiguration emailConfig = builder.Configuration
                          .Get<EmailServerConfiguration>();
 
 emailConfig.SmtpPassword = builder.Configuration["SmtpPassword"];
-builder.Services.AddSingleton<EmailServerConfiguration>(emailConfig);
+builder.Services.AddSingleton(emailConfig);
 builder.Services.AddTransient<IEmailService, MailKitEmailService>();
 
 var emailAddress = builder.Configuration
