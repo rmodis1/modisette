@@ -1,6 +1,6 @@
 namespace Modisette.Services;
 
-public interface ITimelineService
+public interface ITwitterTimelineService
 {
     Task<string> GetEmbeddedTimelineAsync(string url);
 }

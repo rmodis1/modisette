@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Modisette.Data;
 using Modisette.Models;
+using Modisette.Services;
 
 namespace modisette.Pages.Admin.ContentForm
 {

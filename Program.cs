@@ -31,7 +31,7 @@ builder.Services.AddDbContext<SiteContext>(options =>
 builder.Services.AddScoped<IContactService, ContactService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<IFileService, FileService>();
-builder.Services.AddTransient<ITimelineService, TwitterTimelineService>();
+builder.Services.AddTransient<ITwitterTimelineService, TwitterTimelineService>();
 builder.Services.AddScoped<IContactMessageBuilder, ContactMessageBuilder>();
 
 EmailServerConfiguration emailConfig = builder.Configuration

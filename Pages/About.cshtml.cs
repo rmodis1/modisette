@@ -1,15 +1,16 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Modisette.Services;
 
 namespace Modisette.Pages;
 public class AboutModel : PageModel
 {
     // The AboutModel class follows the Single Responsibility Principle (SRP) by focusing on handling the About page's data and behavior.
-    private readonly ITimelineService _twitterTimelineService;
+    private readonly ITwitterTimelineService _twitterTimelineService;
 
     // The constructor demonstrates Dependency Injection, adhering to the Dependency Inversion Principle (DIP).
     // It depends on an abstraction (ITimelineService) rather than a concrete implementation.
-    public AboutModel(ITimelineService twitterTimelineService)
+    public AboutModel(ITwitterTimelineService twitterTimelineService)
     {
         _twitterTimelineService = twitterTimelineService;
     }

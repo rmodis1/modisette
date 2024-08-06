@@ -1,7 +1,9 @@
 using Modisette.Pages;
 using Newtonsoft.Json;
 
-public class TwitterTimelineService : ITimelineService
+namespace Modisette.Services;
+
+public class TwitterTimelineService : ITwitterTimelineService
 {
     private readonly IHttpClientFactory _httpClientFactory;
 
@@ -39,9 +41,4 @@ public class TwitterTimelineService : ITimelineService
             return $"An error occurred while fetching the Twitter timeline: {ex.Message}";
         }
     }
-}
-
-public interface ITimelineService
-{
-    Task<string> GetEmbeddedTimelineAsync(string url);
 }

@@ -2,6 +2,8 @@ using Modisette.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using modisette.Pages.Admin.ContentForm;
 
+namespace Modisette.Services;
+
 public interface ICourseService
 {
     Task AddCourseAsync(Course course);
