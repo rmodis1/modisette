@@ -19,6 +19,7 @@ The project is my capstone project for CODE: You. The application will serve as 
 ![Project Screenshot](About.png)
 ![Project Screenshot](UserCourseContent.png)
 ![Project Screenshot](AdminContactDashboard.png)
+![Project Screenshot](AdminEditCourse.png)
 
 ## Features Utilized for the project
 
