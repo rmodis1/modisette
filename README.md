@@ -21,6 +21,7 @@ This project demonstrates my ability to develop viable solutions for clients by 
 ![Project Screenshot](Images/About.png)
 ![Project Screenshot](Images/UserCourseContent.png)
 ![Project Screenshot](Images/AdminContactDashboard.png)
+![Project Screenshot](Images/AdminCoursesDisplay.png)
 ![Project Screenshot](Images/AdminEditCourse.png)
 
 ## Features
