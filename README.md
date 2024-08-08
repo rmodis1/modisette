@@ -15,11 +15,11 @@ The project is my capstone project for CODE: You. The application will serve as 
 
 ## Demo
 
-![Project Screenshot](modisette.com.png)
-![Project Screenshot](About.png)
-![Project Screenshot](UserCourseContent.png)
-![Project Screenshot](AdminContactDashboard.png)
-![Project Screenshot](AdminEditCourse.png)
+![Project Screenshot](Images/modisette.com.png)
+![Project Screenshot](Images/About.png)
+![Project Screenshot](Images/UserCourseContent.png)
+![Project Screenshot](Images/AdminContactDashboard.png)
+![Project Screenshot](Images/AdminEditCourse.png)
 
 ## Features Utilized for the project
 
