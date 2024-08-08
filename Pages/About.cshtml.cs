@@ -18,7 +18,7 @@ public class AboutModel : PageModel
     [BindProperty]
     public string EmbeddedTimelineHtml { get; private set; }
 
-    // The OnGetAsync method follows the Interface Segregation Principle (ISP) by using a specific method from the ITimelineService interface.
+    // The OnGetAsync method follows the Interface Segregation Principle (ISP) by using a specific method from the ITwitterTimelineService interface.
     // This method also adheres to the SRP by focusing solely on fetching and setting the embedded timeline HTML.
     public async Task OnGetAsync()
     {

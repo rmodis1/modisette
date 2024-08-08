@@ -28,6 +28,8 @@ namespace Modisette.Pages.ContactForm
         [BindProperty(SupportsGet = true)]
         public string? SearchString { get; set;}
 
+        // The OnGetAsync method follows the Interface Segregation Principle (ISP) by using a specific method from the IContactService interface.
+        // This method also adheres to the Single Responsibility Principle (SRP) by focusing solely on fetching and setting the contacts.
         public async Task OnGetAsync()
         {
             Contacts = await _contactService.GetFilteredContactsAsync(SearchString);

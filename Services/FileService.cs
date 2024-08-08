@@ -5,6 +5,7 @@ using Modisette.Models;
 
 namespace Modisette.Services;
 
+//Single Responsibility Principle (SRP): This class is responsible for handling course files/documents (i.e., file uploads, deletions, and retrievals).
 public class FileService : IFileService
 {
     private readonly IWebHostEnvironment _webHostEnvironment;

@@ -10,10 +10,11 @@ namespace modisette.Pages.Admin.ContentForm
 {
     public class CreateModel : PageModel
     {
-
+        // Dependency Inversion Principle (DIP): the CreateModel class depends on abstractions (ICourseService and IFileService) rather than concrete implementations.
         private readonly ICourseService _courseService;
         private readonly IFileService _fileService;
 
+        // Constructor Injection: this follows the Dependency Inversion Principle (DIP) by injecting dependencies through the constructor.
         public CreateModel (ICourseService courseService, IFileService fileService)
         {
             _courseService = courseService;
@@ -30,7 +31,9 @@ namespace modisette.Pages.Admin.ContentForm
         [BindProperty]
         public BufferedFiles Files { get; set; }
 
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
+        // Consider if overposting will be an issue.
+        // Single Responsibility Principle (SRP): the OnPostAsync method is responsible only for handling POST requests, validating the model, and invoking services.
+        // Open/Closed Principle (OCP): the method is open for extension (by adding more services or logic) but closed for modification (the core logic remains unchanged). 
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)

@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 
 namespace Modisette.Services;
 
+//Single Responsibility Principle (SRP): This class is responsible only for consuming Twitter's oEmbed API by fetching a Twitter timeline and returning the embedded HTML.
 public class TwitterTimelineService : ITwitterTimelineService
 {
     private readonly IHttpClientFactory _httpClientFactory;

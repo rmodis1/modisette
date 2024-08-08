@@ -40,7 +40,7 @@ public class ContentModel : PageModel
     {
         //By using a service to retrieve data, we abstract unnecessary responsibility from the page model, following the SRP.
         Years = await _courseService.GetYearsAsync();
-
+        
         Semesters = new List<SelectListItem>();
         CourseCodes = new List<SelectListItem>();
         CourseDocuments = new List<CourseDocument>();

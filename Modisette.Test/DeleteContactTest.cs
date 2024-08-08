@@ -57,9 +57,7 @@ namespace Modisette.Tests
         public async Task OnPostAsync_NullId_ShouldReturnNotFound()
         {
             // Act
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
             var result = await _pageModel.OnPostAsync(null);
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(NotFoundResult));

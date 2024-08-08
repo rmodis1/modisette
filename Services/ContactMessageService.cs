@@ -2,6 +2,7 @@ using Modisette.Models;
 
 namespace Modisette.Services
 {
+    //Single Responsibility Principle (SRP): This class is responsible for building a message to be sent to the website owner when a user submits the contact form.
     public class ContactMessageBuilder : IContactMessageBuilder
     {
         private readonly EmailAddress _fromAndToEmailAddress;

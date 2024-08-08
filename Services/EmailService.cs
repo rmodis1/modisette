@@ -5,6 +5,7 @@ using Modisette.Models;
 
 namespace Modisette.Services;
 
+//Single Responsibility Principle (SRP): This class is responsible only for sending an email to the client.
 public class MailKitEmailService: IEmailService
 {
     private readonly EmailServerConfiguration _eConfig;
