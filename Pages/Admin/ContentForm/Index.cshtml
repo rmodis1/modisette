@@ -12,6 +12,15 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Course[0].Year)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Course[0].Semester)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Course[0].Code)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Course[0].Title)
             </th>
             <th></th>
@@ -20,6 +29,15 @@
     <tbody>
 @foreach (var item in Model.Course) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Semester)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Code)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
             </td>

@@ -13,15 +13,18 @@ namespace modisette.Pages.Admin.ContentForm
 {
     public class DetailsModel : PageModel
     {
-        // Dependency Inversion Principle (DIP): the DeleteModel class depends on an abstraction (ICourseService) rather than a concrete implementation.
+        // Dependency Inversion Principle (DIP): the DeleteModel class depends on abstractions (ICourseService, IFileService) rather than concrete implementations.
         private readonly ICourseService _courseService;
+        private readonly IFileService _fileService;
 
         // Constructor Injection: this follows the Dependency Inversion Principle (DIP) by injecting the ICourseService dependency through the constructor.
-        public DetailsModel(ICourseService courseService)
+        public DetailsModel(ICourseService courseService, IFileService fileService)
         {
             _courseService = courseService;
+            _fileService = fileService;
         }
-    
+
+        public IList<CourseDocument> Documents { get; set; } = default!;
         public Course Course { get; set; } = default!;
 
         // Single Responsibility Principle (SRP): the OnGetAsync method is responsible only for handling GET requests and retrieving the course by its id/code.
@@ -43,6 +46,10 @@ namespace modisette.Pages.Admin.ContentForm
             {
                 Course = course;
             }
+
+            // Delegates the responsibility of retrieving course documents to the IFileService.
+            Documents = await _fileService.GetCourseDocumentsAsync(course);
+            
             return Page();
         }
     }

@@ -8,10 +8,10 @@
 
 <h1>Details</h1>
 
-<div>
+<div class="container g-0">
     <h4>Course</h4>
     <hr />
-     <dl class="row">
+    <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Course.Title)
         </dt>
@@ -37,8 +37,23 @@
             @Html.DisplayFor(model => model.Course.Code)
         </dd>
     </dl>
+        <!-- Files -->
+    <h4>Files</h4>
+    <hr />
+    <dl class="row">
+        <dd class="col-sm-10">
+            <ul>
+                @foreach (var file in Model.Documents)
+                {
+                    <li>
+                        <a href="@Url.Content("~/uploads/" + file.Document)" target="_blank">@file.Name</a>
+                    </li>
+                }
+            </ul>
+        </dd>
+    </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit") |
+    <a asp-page="./Edit" asp-route-id="@Model.Course.Code">Edit</a> |
     <a asp-page="./Index">Back to List</a>
 </div>
