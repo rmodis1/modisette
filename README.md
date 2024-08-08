@@ -16,6 +16,9 @@ The project is my capstone project for CODE: You. The application will serve as 
 ## Demo
 
 ![Project Screenshot](modisette.com.png)
+![Project Screenshot](About.png)
+![Project Screenshot](AdminContactDashboard.png)
+![Project Screenshot](UserCourseContent.png)
 
 ## Features Utilized for the project
 
