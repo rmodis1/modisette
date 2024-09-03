@@ -23,25 +23,77 @@ public class FileService : IFileService
         {
             if (formFile.Length > 0)
             {
-                var fileName = Path.GetFileName(formFile.FileName);
-                var uploads = Path.Combine(_webHostEnvironment.WebRootPath, "Uploads");
-                var filePath = Path.Combine(uploads, fileName);
-
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                if (formFile.Name.EndsWith(".pdf") 
+                || formFile.Name.EndsWith(".docx") 
+                || formFile.Name.EndsWith(".doc")
+                || formFile.Name.EndsWith(".r")
+                || formFile.Name.EndsWith(".py")
+                || formFile.Name.EndsWith(".txt")
+                || formFile.Name.EndsWith(".ppt")
+                || formFile.Name.EndsWith(".pptx"))
                 {
-                    await formFile.CopyToAsync(stream);
+                    var fileName = Path.GetFileName(formFile.FileName);
+                    var uploads = Path.Combine(_webHostEnvironment.WebRootPath, "Uploads");
+                    var filePath = Path.Combine(uploads, fileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await formFile.CopyToAsync(stream);
+                    }
+
+                    var courseDocument = new CourseDocument
+                    {
+                        CourseCode = course.Code,
+                        CourseYear = course.Year,
+                        CourseSemester = course.Semester,
+                        Name = fileName,
+                        Document = new Uri(fileName, UriKind.Relative)
+                    };
+
+                    await _context.CourseDocuments.AddAsync(courseDocument);
                 }
-
-                var courseDocument = new CourseDocument
                 {
-                    CourseCode = course.Code,
-                    CourseYear = course.Year,
-                    CourseSemester = course.Semester,
-                    Name = fileName,
-                    Document = new Uri(fileName, UriKind.Relative)
-                };
+                    var fileName = Path.GetFileName(formFile.FileName);
+                    var uploads = Path.Combine(_webHostEnvironment.WebRootPath, "Uploads");
+                    var filePath = Path.Combine(uploads, fileName);
 
-                await _context.CourseDocuments.AddAsync(courseDocument);
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await formFile.CopyToAsync(stream);
+                    }
+
+                    var courseDocument = new CourseDocument
+                    {
+                        CourseCode = course.Code,
+                        CourseYear = course.Year,
+                        CourseSemester = course.Semester,
+                        Name = fileName,
+                        Document = new Uri(fileName, UriKind.Relative)
+                    };
+
+                    await _context.CourseDocuments.AddAsync(courseDocument);
+                }
+                {
+                    var fileName = Path.GetFileName(formFile.FileName);
+                    var uploads = Path.Combine(_webHostEnvironment.WebRootPath, "Uploads");
+                    var filePath = Path.Combine(uploads, fileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await formFile.CopyToAsync(stream);
+                    }
+
+                    var courseDocument = new CourseDocument
+                    {
+                        CourseCode = course.Code,
+                        CourseYear = course.Year,
+                        CourseSemester = course.Semester,
+                        Name = fileName,
+                        Document = new Uri(fileName, UriKind.Relative)
+                    };
+
+                    await _context.CourseDocuments.AddAsync(courseDocument);
+                }
             }
         }
         await _context.SaveChangesAsync();
