@@ -11,11 +11,14 @@
 
 <h1>Contact Submissions</h1>
 
-<form>
-    <p>
-        Filter by name, message, or notes: <input type="text" asp-for="SearchString" />
-        <input type="submit" value="Filter" />
-    </p>
+<form class="form-inline my-3">
+    <div class="input-group">
+        <label for="searchString" class="sr-only">Filter by name, message, or notes:</label>
+        <input type="text" class="form-control" id="searchString" placeholder="Filter by name, message, or notes" asp-for="SearchString" />
+        <div class="input-group-append ps-2">
+            <button type="submit" class="btn btn-primary text-light">Filter</button>
+        </div>
+    </div>
 </form>
 
 <table class="table">

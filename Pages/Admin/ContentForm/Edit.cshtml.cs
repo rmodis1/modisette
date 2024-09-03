@@ -64,6 +64,11 @@ namespace modisette.Pages.Admin.ContentForm
         {
             if (!ModelState.IsValid)
             {
+                // Log validation errors
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    Console.WriteLine($"Validation error: {error.ErrorMessage}");
+                }
                 return Page();
             }
 
@@ -76,7 +81,16 @@ namespace modisette.Pages.Admin.ContentForm
             }
 
             // Delegates the responsibility of uploading files to the IFileService.
-            await _fileService.UploadFilesAsync(Files, Course);
+            try
+            {
+                await _fileService.UploadFilesAsync(Files, Course);
+            }
+            catch (Exception ex)
+            {
+                // Log file upload errors
+                Console.WriteLine($"File upload exception: {ex.Message}");
+                return StatusCode(500, "Internal server error during file upload.");
+            }
 
             return RedirectToPage("./Index");
         }

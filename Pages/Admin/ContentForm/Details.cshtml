@@ -7,11 +7,11 @@
 }
 
 <h1>Details</h1>
-
+<hr />
 <div class="container g-0">
     <h2>Course</h2>
     <hr />
-    <dl class="row">
+    <dl class="row pt-2">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Course.Title)
         </dt>
@@ -37,10 +37,11 @@
             @Html.DisplayFor(model => model.Course.Code)
         </dd>
     </dl>
-        <!-- Files -->
+    <hr />
+    <!-- Files -->
     <h2>Files</h2>
     <hr />
-    <dl class="row">
+    <dl class="row pt-2">
         <dd class="col-sm-10">
             <ul>
                 @foreach (var file in Model.Documents)

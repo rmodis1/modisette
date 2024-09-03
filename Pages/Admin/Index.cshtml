@@ -6,9 +6,10 @@
     Layout = "./Shared/_Layout3";
 }
 
-<h2>Admin Area</h2>
+<h1>Admin Area</h1>
+<hr />
 <div>
-    <p>Please log in to access the more content.</p>
+    <h2>Please log in to access more content.</h2>
         @if (User?.Identity?.IsAuthenticated == true)
         {
             <button class="btn btn-primary btn-lg"><a class="nav-link text-light" asp-page="./ContactForm/Display">Admin Page</a></button>

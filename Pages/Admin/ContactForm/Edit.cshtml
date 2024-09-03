@@ -10,45 +10,45 @@
 {
 
 <h1>Edit</h1>
-
+<hr />
 <h2>Contact</h2>
 <hr />
-<div class="row ms-0">
+<div class="row pt-1">
     <div class="col-md-4 ms-0">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Contact.Id" />
-            <div class="form-group">
+            <div class="form-group py-1">
                 <label asp-for="Contact.FirstName" class="control-label"></label>
                 <input asp-for="Contact.FirstName" class="form-control" />
                 <span asp-validation-for="Contact.FirstName" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group py-1">
                 <label asp-for="Contact.LastName" class="control-label"></label>
                 <input asp-for="Contact.LastName" class="form-control" />
                 <span asp-validation-for="Contact.LastName" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group py-1">
                 <label asp-for="Contact.Email" class="control-label"></label>
                 <input asp-for="Contact.Email" class="form-control" />
                 <span asp-validation-for="Contact.Email" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group py-1">
                 <label asp-for="Contact.PhoneNumber" class="control-label"></label>
                 <input asp-for="Contact.PhoneNumber" class="form-control" />
                 <span asp-validation-for="Contact.PhoneNumber" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group py-1">
                 <label asp-for="Contact.Message" class="control-label"></label>
                 <input asp-for="Contact.Message" class="form-control" />
                 <span asp-validation-for="Contact.Message" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group py-1">
                 <label asp-for="Contact.TimeSubmitted" class="control-label"></label>
                 <input asp-for="Contact.TimeSubmitted" class="form-control" />
                 <span asp-validation-for="Contact.TimeSubmitted" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group py-1">
                 <label asp-for="Contact.Notes" class="control-label"></label>
                 <input asp-for="Contact.Notes" class="form-control" />
                 <span asp-validation-for="Contact.Notes" class="text-danger"></span>

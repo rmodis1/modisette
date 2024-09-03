@@ -85,8 +85,25 @@ public class CourseService : ICourseService
             await _context.SaveChangesAsync();
             return true;
         }
-        catch (DbUpdateException)
+        catch (DbUpdateConcurrencyException ex)
         {
+            // Handle concurrency issues
+            // Log the exception details
+            Console.WriteLine($"Concurrency exception: {ex.Message}");
+            return false;
+        }
+        catch (DbUpdateException ex)
+        {
+            // Handle other database update issues
+            // Log the exception details
+            Console.WriteLine($"Database update exception: {ex.Message}");
+            return false;
+        }
+        catch (Exception ex)
+        {
+            // Handle any other exceptions
+            // Log the exception details
+            Console.WriteLine($"An unexpected error occurred: {ex.Message}");
             return false;
         }
     }

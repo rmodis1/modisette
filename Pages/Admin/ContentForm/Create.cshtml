@@ -9,26 +9,26 @@
 
 <h1>Create Course</h1>
 <hr />
-<div class="row">
+<div class="row pt-1">
     <div class="col-md-4">
         <form method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            <div class="form-group mb-4 mt-2">
                 <label asp-for="Course.Code" class="control-label"></label>
                 <input asp-for="Course.Code" class="form-control" />
                 <span asp-validation-for="Course.Code" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-4 mt-2">
                 <label asp-for="Course.Year" class="control-label"></label>
                 <input asp-for="Course.Year" class="form-control" />
                 <span asp-validation-for="Course.Year" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-4 mt-2">
                 <label asp-for="Course.Semester" class="control-label"></label>
                 <select asp-for="Course.Semester" class="form-control" asp-items="Html.GetEnumSelectList<TimeOfYear>()"></select>
                 <span asp-validation-for="Course.Semester" class="text-danger"></span>
             </div>
-            <div class="form-group mb-4">
+            <div class="form-group mb-4 mt-2">
                 <label asp-for="Course.Title" class="control-label"></label>
                 <input asp-for="Course.Title" class="form-control" />
                 <span asp-validation-for="Course.Title" class="text-danger"></span>

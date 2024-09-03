@@ -1,5 +1,6 @@
 @page
 @using Microsoft.EntityFrameworkCore.Metadata.Internal
+@using Modisette.Models
 @model modisette.Pages.Admin.ContentForm.EditModel
 
 @{
@@ -8,7 +9,7 @@
 }
 
 <h1>Edit</h1>
-
+<hr />
 <div class="container g-0">
     <div class="row">
         <div class="col-md-4 justify-content-between">
@@ -19,7 +20,7 @@
                 <input type="hidden" asp-for="Course.Code" />
                 <input type="hidden" asp-for="Course.Year" />
                 <input type="hidden" asp-for="Course.Semester" />
-                <div class="form-group mb-4">
+                <div class="form-group mb-4 mt-2">
                     <label asp-for="Course.Title" class="control-label"></label>
                     <input asp-for="Course.Title" class="form-control" />
                     <span asp-validation-for="Course.Title" class="text-danger"></span>
@@ -33,14 +34,17 @@
                 </div>
             </form>
         </div>
-        <div class="col-md-4 justify-content-between">
+        <div class="col-md-6 justify-content-between">
         <h2>Files</h2>
         <hr />
-            <ul>
+            <ul class="pt-2">
                 @foreach (var file in Model.Documents)
                     {
-                        <form method = "post" asp-page="./Edit" asp-page-handler="DeleteFile" asp-route-fileId="@file.Id" >
-                            <li><a href="~/uploads/@file.Document">@file.Name</a> | <button type="submit" value="Delete" class="btn btn-danger my-2">Delete</button></li>
+                        <form method = "post" asp-page="./Edit" asp-page-handler="DeleteFile" asp-route-fileId="@file.Id" class="mb-3">
+                            <li>
+                                <a href="~/uploads/@file.Document" class="me-2">@file.Name</a> | 
+                                <button type="submit" value="Delete" class="btn btn-danger">Delete</button>
+                            </li>
                         </form>
                     }
             </ul>
