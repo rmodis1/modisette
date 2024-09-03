@@ -19,18 +19,18 @@
                     <form id="contactForm" form method="post">
                         <!-- Name input-->
                         <div class="form-floating mb-3">
-                            <input class="form-control" asp-for="Contact.FirstName" />
+                            <input class="form-control" asp-for="Contact.FirstName" maxlength="40"/>
                             <label asp-for="Contact.FirstName" class="control-label">First name</label>
                             <span asp-validation-for="Contact.FirstName" class="text-danger"></span>
                         </div>
                         <div class="form-floating mb-3">
-                            <input class="form-control" asp-for="Contact.LastName"/>
+                            <input class="form-control" asp-for="Contact.LastName" maxlength="40"/>
                             <label asp-for="Contact.LastName" class="control-label">Last name</label>
                             <span asp-validation-for="Contact.LastName" class="text-danger"></span>
                         </div>
                         <!-- Email address input-->
                         <div class="form-floating mb-3">
-                            <input class="form-control" asp-for="Contact.Email" />
+                            <input class="form-control" asp-for="Contact.Email" maxlength="100"/>
                             <label asp-for="Contact.Email" class="control-label">Email address</label>
                             <span asp-validation-for="Contact.Email" class="text-danger"></span>
                         </div>
@@ -42,7 +42,7 @@
                         </div>
                         <!-- Message input-->
                         <div class="form-floating mb-3">
-                            <textarea class="form-control" asp-for="Contact.Message" style="height: 10rem"></textarea>
+                            <textarea class="form-control" asp-for="Contact.Message" style="height: 10rem" maxlength="500"></textarea>
                             <label asp-for="Contact.Message" class="control-label">Message</label>
                             <span asp-validation-for="Contact.Message" class="text-danger"></span>
                         </div>
