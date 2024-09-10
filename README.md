@@ -43,7 +43,7 @@ This project demonstrates my ability to develop viable solutions for clients by 
 - HTML/CSS (Bootstrap)
 - JavaScript
 - Entity Framework Core
-- AuthO (OAuth 2.0)
+- AuthO (0Auth 2.0)
 - Google SMTP
 - Node.js
 - SQLite
