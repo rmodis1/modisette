@@ -9,6 +9,14 @@
 
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
+
+  <ItemGroup>
+    <Compile Remove="Modisette.Test/**/*.cs" />
+    <Content Remove="Modisette.Test/**" />
+    <EmbeddedResource Remove="Modisette.Test/**" />
+    <None Remove="Modisette.Test/**" />
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Auth0.AspNetCore.Authentication" Version="1.4.1" />
     <PackageReference Include="MailKit" Version="4.7.1.1" />
@@ -22,8 +30,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
-    <PackageReference Include="Moq" Version="4.20.70" />
-    <PackageReference Include="MSTest" Version="3.5.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
 </Project>
