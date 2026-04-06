@@ -85,6 +85,12 @@ namespace modisette.Pages.Admin.ContentForm
             {
                 await _fileService.UploadFilesAsync(Files, Course);
             }
+            catch (InvalidDataException ex)
+            {
+                ModelState.AddModelError("Files.FormFiles", ex.Message);
+                Documents = await _fileService.GetCourseDocumentsAsync(Course);
+                return Page();
+            }
             catch (Exception ex)
             {
                 // Log file upload errors

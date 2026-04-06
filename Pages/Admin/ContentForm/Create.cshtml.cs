@@ -42,7 +42,17 @@ namespace modisette.Pages.Admin.ContentForm
             }
 
             await _courseService.AddCourseAsync(Course);
-            await _fileService.UploadFilesAsync(Files, Course);
+
+            try
+            {
+                await _fileService.UploadFilesAsync(Files, Course);
+            }
+            catch (InvalidDataException ex)
+            {
+                ModelState.AddModelError("Files.FormFiles", ex.Message);
+                return Page();
+            }
+
             return RedirectToPage("./Index");
         }
     }

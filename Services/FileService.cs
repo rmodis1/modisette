@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using Modisette.Data;
 using Modisette.Models;
@@ -8,6 +7,19 @@ namespace Modisette.Services;
 //Single Responsibility Principle (SRP): This class is responsible for handling course files/documents (i.e., file uploads, deletions, and retrievals).
 public class FileService : IFileService
 {
+    private const long MaxFileSizeBytes = 10 * 1024 * 1024;
+    private static readonly HashSet<string> AllowedExtensions = new(StringComparer.OrdinalIgnoreCase)
+    {
+        ".pdf",
+        ".docx",
+        ".doc",
+        ".r",
+        ".py",
+        ".txt",
+        ".ppt",
+        ".pptx"
+    };
+
     private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly SiteContext _context;
 
@@ -19,87 +31,67 @@ public class FileService : IFileService
 
     public async Task UploadFilesAsync(BufferedFiles files, Course course)
     {
+        if (files.FormFiles == null || files.FormFiles.Count == 0)
+        {
+            return;
+        }
+
+        var uploads = Path.Combine(_webHostEnvironment.WebRootPath, "Uploads");
+        Directory.CreateDirectory(uploads);
+
         foreach (var formFile in files.FormFiles)
         {
-            if (formFile.Length > 0)
+            if (formFile.Length <= 0)
             {
-                if (formFile.Name.EndsWith(".pdf") 
-                || formFile.Name.EndsWith(".docx") 
-                || formFile.Name.EndsWith(".doc")
-                || formFile.Name.EndsWith(".r")
-                || formFile.Name.EndsWith(".py")
-                || formFile.Name.EndsWith(".txt")
-                || formFile.Name.EndsWith(".ppt")
-                || formFile.Name.EndsWith(".pptx"))
-                {
-                    var fileName = Path.GetFileName(formFile.FileName);
-                    var uploads = Path.Combine(_webHostEnvironment.WebRootPath, "Uploads");
-                    var filePath = Path.Combine(uploads, fileName);
-
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await formFile.CopyToAsync(stream);
-                    }
-
-                    var courseDocument = new CourseDocument
-                    {
-                        CourseCode = course.Code,
-                        CourseYear = course.Year,
-                        CourseSemester = course.Semester,
-                        Name = fileName,
-                        Document = new Uri(fileName, UriKind.Relative)
-                    };
-
-                    await _context.CourseDocuments.AddAsync(courseDocument);
-                }
-                {
-                    var fileName = Path.GetFileName(formFile.FileName);
-                    var uploads = Path.Combine(_webHostEnvironment.WebRootPath, "Uploads");
-                    var filePath = Path.Combine(uploads, fileName);
-
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await formFile.CopyToAsync(stream);
-                    }
-
-                    var courseDocument = new CourseDocument
-                    {
-                        CourseCode = course.Code,
-                        CourseYear = course.Year,
-                        CourseSemester = course.Semester,
-                        Name = fileName,
-                        Document = new Uri(fileName, UriKind.Relative)
-                    };
-
-                    await _context.CourseDocuments.AddAsync(courseDocument);
-                }
-                {
-                    var fileName = Path.GetFileName(formFile.FileName);
-                    var uploads = Path.Combine(_webHostEnvironment.WebRootPath, "Uploads");
-                    var filePath = Path.Combine(uploads, fileName);
-
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await formFile.CopyToAsync(stream);
-                    }
-
-                    var courseDocument = new CourseDocument
-                    {
-                        CourseCode = course.Code,
-                        CourseYear = course.Year,
-                        CourseSemester = course.Semester,
-                        Name = fileName,
-                        Document = new Uri(fileName, UriKind.Relative)
-                    };
-
-                    await _context.CourseDocuments.AddAsync(courseDocument);
-                }
+                continue;
             }
+
+            if (formFile.Length > MaxFileSizeBytes)
+            {
+                throw new InvalidDataException($"'{formFile.FileName}' exceeds the 10 MB upload limit.");
+            }
+
+            var originalFileName = Path.GetFileName(formFile.FileName);
+            var extension = Path.GetExtension(originalFileName);
+            if (string.IsNullOrWhiteSpace(extension) || !AllowedExtensions.Contains(extension))
+            {
+                throw new InvalidDataException($"'{originalFileName}' is not an allowed file type.");
+            }
+
+            var storedFileName = $"{Guid.NewGuid():N}{extension}";
+            var filePath = Path.Combine(uploads, storedFileName);
+
+            await using (var stream = new FileStream(filePath, FileMode.CreateNew, FileAccess.Write, FileShare.None))
+            {
+                await formFile.CopyToAsync(stream);
+            }
+
+            var courseDocument = new CourseDocument
+            {
+                CourseCode = course.Code,
+                CourseYear = course.Year,
+                CourseSemester = course.Semester,
+                Name = originalFileName,
+                Document = new Uri(storedFileName, UriKind.Relative)
+            };
+
+            await _context.CourseDocuments.AddAsync(courseDocument);
         }
+
         await _context.SaveChangesAsync();
     }
+
     public async Task DeleteFileAsync(CourseDocument courseDocument)
     {
+        var uploads = Path.Combine(_webHostEnvironment.WebRootPath, "Uploads");
+        var storedFileName = Path.GetFileName(courseDocument.Document.OriginalString);
+        var filePath = Path.Combine(uploads, storedFileName);
+
+        if (File.Exists(filePath))
+        {
+            File.Delete(filePath);
+        }
+
         _context.CourseDocuments.Remove(courseDocument);
         await _context.SaveChangesAsync();
     }
@@ -120,7 +112,7 @@ public class FileService : IFileService
                                                         ).ToListAsync();
     }
 
-    public async Task<CourseDocument> GetCourseDocumentAsync(int fileId)
+    public async Task<CourseDocument?> GetCourseDocumentAsync(int fileId)
     {
         return await _context.CourseDocuments.FindAsync(fileId);
     }

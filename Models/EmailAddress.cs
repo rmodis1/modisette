@@ -4,6 +4,11 @@ namespace Modisette.Models;
 
 public class EmailAddress
 {
-    public string Name { get; set;}
-    public string Address { get; set;}
+    [Required]
+    [StringLength(100)]
+    public string Name { get; set; } = string.Empty;
+
+    [Required]
+    [EmailAddress]
+    public string Address { get; set; } = string.Empty;
 }

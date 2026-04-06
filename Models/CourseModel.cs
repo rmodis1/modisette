@@ -17,13 +17,16 @@ public enum TimeOfYear
 public class Course
 {
     [Required]
-    public string Code { get; set; }
+    [StringLength(32)]
+    public string Code { get; set; } = string.Empty;
     [Required]
+    [Range(1900, 2100)]
     public int Year { get; set; }
     [Required]
     public TimeOfYear Semester { get; set; }
     [Required]
-    public string Title { get; set; }
+    [StringLength(200)]
+    public string Title { get; set; } = string.Empty;
     public ICollection<CourseDocument> Files { get; set; } = new List<CourseDocument>();
 
 }
