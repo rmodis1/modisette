@@ -6,6 +6,7 @@
 .db
 # dotenv files
 .env
+.aspnet/https/
 
 # User-specific files
 *.rsuser
@@ -483,3 +484,12 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+# Other files
+ryan_modisette_linkedin_qr.png
+rmodisette_github_qr.png
+Crossing Traditions.pdf
+Demo.cshtml
+Modisette.db
+Modisette.db-shm
+Modisette.db-wal

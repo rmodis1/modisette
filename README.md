@@ -2,7 +2,7 @@
 
 ## Overview
 
-This capstone project for CODE: You is a personal website for a client that features responsive web design and solid (i.e., SOLID) backend functionality. Built with ASP.NET Core's Razor Pages, it leverages C#, HTML, CSS, and JavaScript to create a dynamic and responsive user interface. The site features general access to Home, About, Content, and Contact pages, with the About page consuming Twitter's (X's) oEmbed API to integrate her social media feed. Contact form submissions are securely stored in a SQLite database, with notifications sent to the client via Google's SMTP. A hidden admin section allows the client to manage contact submissions and perform CRUD operations on courses and content, with course files stored in the “wwwroot” folder. Authentication and authorization are handled through Auth0, with a custom Node.js script ensuring secure admin access. 
+This capstone project for CODE: You is a personal website for a client that features responsive web design and solid backend functionality. Built with ASP.NET Core Razor Pages on .NET 8, it uses C#, HTML, CSS, and JavaScript to serve public Home, About, Content, and Contact pages. The About page consumes Twitter's oEmbed API, contact form submissions are stored in SQLite, and email notifications are sent through SMTP. The admin area uses ASP.NET Core cookie authentication with configuration-backed credentials, and course files are stored locally under `wwwroot/Uploads` for now.
 
 This project demonstrates my ability to develop viable solutions for clients by creating cohesive full-stack applications with secure authentication and authorization flows.
 
@@ -43,9 +43,8 @@ This project demonstrates my ability to develop viable solutions for clients by 
 - HTML/CSS (Bootstrap)
 - JavaScript
 - Entity Framework Core
-- AuthO (0Auth 2.0)
+- ASP.NET Core Cookie Authentication
 - Google SMTP
-- Node.js
 - SQLite
 
 ## Setup Instructions
@@ -56,20 +55,47 @@ This project demonstrates my ability to develop viable solutions for clients by 
     ```
 2. Navigate to the project directory:
     ```sh
-    cd modisette.com
+    cd modisette
     ```
-3. Install dependencies:
+3. Restore dependencies:
     ```sh
     dotnet restore
     ```
-4. Set up the database:
+4. Configure local secrets:
+    ```sh
+    dotnet user-secrets init
+    dotnet user-secrets set "AdminAuth:Username" "admin"
+    dotnet user-secrets set "AdminAuth:Password" "change-this-before-sharing"
+    dotnet user-secrets set "EmailConfiguration:From" "your-smtp-address@example.com"
+    dotnet user-secrets set "EmailConfiguration:SmtpServer" "smtp.gmail.com"
+    dotnet user-secrets set "EmailConfiguration:SmtpPort" "465"
+    dotnet user-secrets set "EmailConfiguration:SmtpUsername" "your-smtp-address@example.com"
+    dotnet user-secrets set "EmailConfiguration:SmtpPassword" "your-app-password"
+    dotnet user-secrets set "SiteEmailAddress:Name" "Site Owner"
+    dotnet user-secrets set "SiteEmailAddress:Address" "owner@example.com"
+    ```
+    The app now validates these settings at startup. If they are missing or malformed, startup will fail instead of falling back to checked-in placeholders.
+5. Set up the database:
     ```sh
     dotnet ef database update
     ```
-5. Run the application:
+6. Run the application:
     ```sh
     dotnet run
     ```
+
+### Admin Password Hash Option
+
+For production, prefer a hashed admin password instead of storing plaintext in configuration. The app accepts a PBKDF2 value in the format `PBKDF2$iterations$salt$hash` via `AdminAuth:PasswordHash`. If `PasswordHash` is supplied, it is used instead of `AdminAuth:Password`.
+
+## Quality Checks
+
+Run the full validation path locally before pushing changes:
+
+```sh
+dotnet build --configuration Release
+dotnet test modisette.sln --configuration Release
+```
 
 ## Dependencies
 

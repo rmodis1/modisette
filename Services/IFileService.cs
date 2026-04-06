@@ -8,5 +8,5 @@ public interface IFileService
     Task DeleteFileAsync(CourseDocument courseDocument);
     Task<List<CourseDocument>> GetCourseDocumentsAsync(string courseCode);
     Task<List<CourseDocument>> GetCourseDocumentsAsync(Course course);
-    Task<CourseDocument> GetCourseDocumentAsync(int fileId);
+    Task<CourseDocument?> GetCourseDocumentAsync(int fileId);
 }

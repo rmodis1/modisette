@@ -1,4 +1,43 @@
 ﻿@page
 @model Modisette.Pages.LoginModel
+
 @{
+	ViewData["Title"] = "Admin Login";
+	Layout = "./Shared/_Layout3";
+}
+
+<section class="py-5">
+	<div class="container px-4 px-md-5">
+		<div class="row justify-content-center">
+			<div class="col-lg-5">
+				<div class="bg-light rounded-4 p-4 p-md-5 shadow-sm">
+					<h1 class="fw-bolder mb-3">Admin login</h1>
+					<p class="text-muted mb-4">Sign in to manage course content and contact submissions.</p>
+
+					<form method="post">
+						<input type="hidden" asp-for="ReturnUrl" />
+						<div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+						<div class="form-floating mb-3">
+							<input asp-for="Username" type="text" class="form-control" autocomplete="username" placeholder="Username" />
+							<label asp-for="Username">Username</label>
+							<span asp-validation-for="Username" class="text-danger"></span>
+						</div>
+
+						<div class="form-floating mb-4">
+							<input asp-for="Password" type="password" class="form-control" autocomplete="current-password" placeholder="Password" />
+							<label asp-for="Password">Password</label>
+							<span asp-validation-for="Password" class="text-danger"></span>
+						</div>
+
+						<button class="btn btn-primary text-light w-100" type="submit">Log in</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+@section Scripts {
+	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

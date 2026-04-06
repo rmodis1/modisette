@@ -1,10 +1,7 @@
 @if (User.Identity.IsAuthenticated)
 {
-
-<div>
-    <button class="btn btn-primary btn-lg" style="margin: 15px 0">
-    <a class="nav-link text-light display-6" asp-page="/Admin/Account/Logout">Logout</a>
-    </button>
-</div>
+<form method="post" asp-page="/Admin/Account/Logout">
+    <button class="btn btn-primary btn-lg" style="margin: 15px 0" type="submit">Logout</button>
+</form>
 
 }
