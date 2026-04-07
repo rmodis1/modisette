@@ -7,6 +7,8 @@ namespace Modisette.Pages;
 
 public class ContactModel : PageModel
 {
+    private static readonly TimeSpan EmailSendTimeout = TimeSpan.FromSeconds(10);
+
     // Dependency Inversion Principle (DIP): Depend on abstractions (interfaces) rather than concrete implementations.
     private readonly IContactService _contactService;
     private readonly IEmailService _emailService;
@@ -36,6 +38,8 @@ public class ContactModel : PageModel
             return Page();
         }
 
+        await _contactService.CreateContactAsync(Contact);
+
         // Single Responsibility Principle (SRP): Delegates the message building responsibility to the IContactMessageBuilder service.
         // Creates an email message from the contact form data.
         EmailMessage messageToSend = _contactMessageBuilder.BuildMessage(Contact);
@@ -43,15 +47,16 @@ public class ContactModel : PageModel
         try
         {
             // Single Responsibility Principle (SRP): Delegates the email sending responsibility to the IEmailService service.
-            await _emailService.Send(messageToSend);
+            await _emailService.Send(messageToSend).WaitAsync(EmailSendTimeout);
+        }
+        catch (TimeoutException ex)
+        {
+            _logger.LogWarning(ex, "Timed out sending contact form notification email after {TimeoutSeconds} seconds.", EmailSendTimeout.TotalSeconds);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to send contact form notification email.");
         }
-
-        // Adds the contact form data to the database.
-        await _contactService.CreateContactAsync(Contact);
 
         return RedirectToPage("./Index");
     }
