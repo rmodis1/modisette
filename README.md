@@ -6,6 +6,8 @@ This capstone project for CODE: You is a personal website for a client that feat
 
 This project demonstrates my ability to develop viable solutions for clients by creating cohesive full-stack applications with secure authentication and authorization flows.
 
+The app now supports SQLite for local development and PostgreSQL for deployment. Provider selection is configuration-driven, so the same code path can run locally on SQLite and in production on Supabase Postgres.
+
 ## Table of Contents
 
 - [Demo](#demo)
@@ -45,6 +47,7 @@ This project demonstrates my ability to develop viable solutions for clients by 
 - Entity Framework Core
 - ASP.NET Core Cookie Authentication
 - Google SMTP
+- PostgreSQL / Supabase-ready provider support
 - SQLite
 
 ## Setup Instructions
@@ -66,6 +69,7 @@ This project demonstrates my ability to develop viable solutions for clients by 
     dotnet user-secrets init
     dotnet user-secrets set "AdminAuth:Username" "admin"
     dotnet user-secrets set "AdminAuth:Password" "change-this-before-sharing"
+    dotnet user-secrets set "Database:Provider" "sqlite"
     dotnet user-secrets set "EmailConfiguration:From" "your-smtp-address@example.com"
     dotnet user-secrets set "EmailConfiguration:SmtpServer" "smtp.gmail.com"
     dotnet user-secrets set "EmailConfiguration:SmtpPort" "465"
@@ -87,6 +91,24 @@ This project demonstrates my ability to develop viable solutions for clients by 
 ### Admin Password Hash Option
 
 For production, prefer a hashed admin password instead of storing plaintext in configuration. The app accepts a PBKDF2 value in the format `PBKDF2$iterations$salt$hash` via `AdminAuth:PasswordHash`. If `PasswordHash` is supplied, it is used instead of `AdminAuth:Password`.
+
+### PostgreSQL Configuration
+
+For Render or any other deployed environment, set these values:
+
+```sh
+Database__Provider=postgres
+ConnectionStrings__Postgres=Host=...;Port=5432;Database=...;Username=...;Password=...;SSL Mode=Require;Trust Server Certificate=true
+```
+
+Local development can continue using SQLite with:
+
+```sh
+Database__Provider=sqlite
+ConnectionStrings__SiteContext=Data Source=Modisette.db
+```
+
+The current checked-in EF migrations were created against SQLite. The cutover plan for creating a PostgreSQL baseline and moving data is documented in [docs/postgres-migration.md](docs/postgres-migration.md).
 
 ## Quality Checks
 

@@ -14,6 +14,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOptions<AdminAuthOptions>()
                 .Bind(builder.Configuration.GetSection(AdminAuthOptions.SectionName))
                 .ValidateOnStart();
+builder.Services.AddOptions<DatabaseOptions>()
+                .Bind(builder.Configuration.GetSection(DatabaseOptions.SectionName))
+                .ValidateOnStart();
 builder.Services.AddOptions<EmailServerConfiguration>()
                 .Bind(builder.Configuration.GetSection("EmailConfiguration"))
                 .ValidateDataAnnotations()
@@ -24,6 +27,7 @@ builder.Services.AddOptions<EmailAddress>()
                 .ValidateOnStart();
 
 builder.Services.AddSingleton<Microsoft.Extensions.Options.IValidateOptions<AdminAuthOptions>, AdminAuthOptionsValidator>();
+builder.Services.AddSingleton<Microsoft.Extensions.Options.IValidateOptions<DatabaseOptions>, DatabaseOptionsValidator>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
@@ -59,9 +63,8 @@ builder.Services.AddRazorPages(options =>
                        .AllowAnonymousToPage("/Admin/Account/Login");
 });
 
-builder.Services.AddDbContext<SiteContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("SiteContext") 
-    ?? throw new InvalidOperationException("Connection string 'SiteContext' not found.")));
+builder.Services.AddDbContext<SiteContext>((sp, options) =>
+    SiteContextConfiguration.Configure(options, sp.GetRequiredService<IConfiguration>()));
 
 builder.Services.AddScoped<IContactService, ContactService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
