@@ -2,7 +2,7 @@
 
 ## Overview
 
-This capstone project for CODE: You is a personal website for a client that features responsive web design and solid backend functionality. Built with ASP.NET Core Razor Pages on .NET 8, it uses C#, HTML, CSS, and JavaScript to serve public Home, About, Content, and Contact pages. The About page consumes Twitter's oEmbed API, contact form submissions are stored in SQLite, and email notifications are sent through SMTP. The admin area uses ASP.NET Core cookie authentication with configuration-backed credentials, and course files are stored locally under `wwwroot/Uploads` for now.
+This capstone project for CODE: You is a personal website for a client that features responsive web design and solid backend functionality. Built with ASP.NET Core Razor Pages on .NET 8, it uses C#, HTML, CSS, and JavaScript to serve public Home, About, Content, and Contact pages. The About page consumes Twitter's oEmbed API, contact form submissions are stored in SQLite, and email notifications are sent through Resend. The admin area uses ASP.NET Core cookie authentication with configuration-backed credentials, and course files are stored locally under `wwwroot/Uploads` for now.
 
 This project demonstrates my ability to develop viable solutions for clients by creating cohesive full-stack applications with secure authentication and authorization flows.
 
@@ -46,7 +46,7 @@ The app now supports SQLite for local development and PostgreSQL for deployment.
 - JavaScript
 - Entity Framework Core
 - ASP.NET Core Cookie Authentication
-- Google SMTP
+- Resend
 - PostgreSQL / Supabase-ready provider support
 - SQLite
 
@@ -70,18 +70,14 @@ The app now supports SQLite for local development and PostgreSQL for deployment.
     dotnet user-secrets set "AdminAuth:Username" "admin"
     dotnet user-secrets set "AdminAuth:Password" "change-this-before-sharing"
     dotnet user-secrets set "Database:Provider" "sqlite"
-    dotnet user-secrets set "EmailConfiguration:From" "your-smtp-address@example.com"
-    dotnet user-secrets set "EmailConfiguration:SmtpServer" "smtp.gmail.com"
-    dotnet user-secrets set "EmailConfiguration:SmtpPort" "587"
-    dotnet user-secrets set "EmailConfiguration:SecureSocketOptions" "StartTls"
-    dotnet user-secrets set "EmailConfiguration:SmtpUsername" "your-smtp-address@example.com"
-    dotnet user-secrets set "EmailConfiguration:SmtpPassword" "your-app-password"
+    dotnet user-secrets set "EmailConfiguration:From" "Portfolio Site <contact@yourdomain.com>"
+    dotnet user-secrets set "EmailConfiguration:ResendApiKey" "your-resend-api-key"
     dotnet user-secrets set "SiteEmailAddress:Name" "Site Owner"
     dotnet user-secrets set "SiteEmailAddress:Address" "owner@example.com"
     ```
     The app now validates these settings at startup. If they are missing or malformed, startup will fail instead of falling back to checked-in placeholders.
 
-    For cloud deployments, prefer port `587` with `EmailConfiguration:SecureSocketOptions=StartTls`. Port `465` with implicit TLS can time out in some hosted environments.
+    For production, verify the sending domain in Resend and set the same values as environment variables in Render.
 5. Set up the database:
     ```sh
     dotnet ef database update

@@ -1,48 +1,46 @@
-using MailKit.Security;
-using Microsoft.VisualBasic;
-using MimeKit;
 using Modisette.Models;
+using Resend;
+using AppEmailAddress = Modisette.Models.EmailAddress;
+using AppEmailMessage = Modisette.Models.EmailMessage;
 
 namespace Modisette.Services;
 
 //Single Responsibility Principle (SRP): This class is responsible only for sending an email to the client.
-public class MailKitEmailService: IEmailService
+public class ResendEmailService : IEmailService
 {
+    private readonly IResend _resend;
     private readonly EmailServerConfiguration _eConfig;
+    private readonly ILogger<ResendEmailService> _logger;
 
-    public MailKitEmailService(EmailServerConfiguration config)
+    public ResendEmailService(IResend resend, EmailServerConfiguration config, ILogger<ResendEmailService> logger)
     {
+        _resend = resend;
         _eConfig = config;
+        _logger = logger;
     }
 
-    public async Task Send(EmailMessage message)
+    public async Task Send(AppEmailMessage message)
     {
-        var mimeMessage = new MimeMessage();
-        mimeMessage.From.AddRange(message.FromEmailAddress.Select(x => new MailboxAddress(x.Name, x.Address)));
-        mimeMessage.To.AddRange(message.ToEmailAddress.Select(x => new MailboxAddress(x.Name, x.Address)));
-        mimeMessage.Subject = message.Subject;
-        mimeMessage.Body = new TextPart("plain")
+        var resendMessage = new Resend.EmailMessage
         {
-            Text = message.Content
+            From = _eConfig.From,
+            Subject = message.Subject,
+            TextBody = message.Content
         };
 
-        using (var client = new MailKit.Net.Smtp.SmtpClient())
+        foreach (var recipient in message.ToEmailAddress)
         {
-            client.Timeout = (int)TimeSpan.FromSeconds(10).TotalMilliseconds;
-
-            await client.ConnectAsync(_eConfig.SmtpServer, _eConfig.SmtpPort, GetSecureSocketOptions());
-
-            await client.AuthenticateAsync(_eConfig.SmtpUsername, _eConfig.SmtpPassword);
-
-            await client.SendAsync(mimeMessage);
-            await client.DisconnectAsync(true);
+            resendMessage.To.Add(FormatAddress(recipient));
         }
+
+        var response = await _resend.EmailSendAsync(resendMessage);
+        _logger.LogInformation("Sent email notification through Resend with id {EmailId}.", response.Content);
     }
 
-    private SecureSocketOptions GetSecureSocketOptions()
+    private static string FormatAddress(AppEmailAddress address)
     {
-        return Enum.TryParse<SecureSocketOptions>(_eConfig.SecureSocketOptions, ignoreCase: true, out var secureSocketOptions)
-            ? secureSocketOptions
-            : SecureSocketOptions.Auto;
+        return string.IsNullOrWhiteSpace(address.Name)
+            ? address.Address
+            : $"{address.Name} <{address.Address}>";
     }
 }
