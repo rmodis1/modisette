@@ -18,10 +18,10 @@ namespace Modisette.Services
             {
                 FromEmailAddress = new List<EmailAddress> { _fromAndToEmailAddress },
                 ToEmailAddress = new List<EmailAddress> { _fromAndToEmailAddress },
-                Content = $"Someone just contacted you through your website!\n" +
+                Content = "Someone just contacted you through your website!\n\n" +
                         $"Name: {contact.FirstName} {contact.LastName}\n" +
-                        $"Email: {contact.Email}\n" +
-                        $"Message: {contact.Message}",
+                        $"Email: {contact.Email}\n\n" +
+                        $"Message:\n{contact.Message}",
                 Subject = "Contact Form"
             };
         }
