@@ -8,7 +8,10 @@ public static class SiteContextConfiguration
     public const string PostgresProvider = "postgres";
     public const string PostgresMigrationAssembly = "Modisette.PostgresMigration";
 
-    public static void Configure(DbContextOptionsBuilder options, IConfiguration configuration)
+    public static void Configure(
+        DbContextOptionsBuilder options,
+        IConfiguration configuration,
+        string? postgresMigrationAssembly = null)
     {
         var provider = NormalizeProvider(configuration[$"{Models.DatabaseOptions.SectionName}:Provider"]);
 
@@ -17,8 +20,16 @@ public static class SiteContextConfiguration
             var connectionString = configuration.GetConnectionString("Postgres")
                 ?? throw new InvalidOperationException("Connection string 'Postgres' not found.");
 
-            options.UseNpgsql(connectionString, npgsql =>
-                npgsql.MigrationsAssembly(PostgresMigrationAssembly));
+            if (string.IsNullOrWhiteSpace(postgresMigrationAssembly))
+            {
+                options.UseNpgsql(connectionString);
+            }
+            else
+            {
+                options.UseNpgsql(connectionString, npgsql =>
+                    npgsql.MigrationsAssembly(postgresMigrationAssembly));
+            }
+
             return;
         }
 
