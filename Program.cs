@@ -8,6 +8,8 @@ using Microsoft.Extensions.Options;
 using Modisette.Data;
 using Modisette.Models;
 using Modisette.Services;
+using Resend;
+using AppEmailAddress = Modisette.Models.EmailAddress;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,10 +40,15 @@ builder.Services.AddOptions<EmailServerConfiguration>()
                 .Bind(builder.Configuration.GetSection("EmailConfiguration"))
                 .ValidateDataAnnotations()
                 .ValidateOnStart();
-builder.Services.AddOptions<EmailAddress>()
+builder.Services.AddOptions<AppEmailAddress>()
                 .Bind(builder.Configuration.GetSection("SiteEmailAddress"))
                 .ValidateDataAnnotations()
                 .ValidateOnStart();
+builder.Services.AddOptions<ResendClientOptions>()
+                .Configure<IOptions<EmailServerConfiguration>>((options, emailConfig) =>
+                {
+                    options.ApiToken = emailConfig.Value.ResendApiKey;
+                });
 
 builder.Services.AddSingleton<Microsoft.Extensions.Options.IValidateOptions<AdminAuthOptions>, AdminAuthOptionsValidator>();
 builder.Services.AddSingleton<Microsoft.Extensions.Options.IValidateOptions<DatabaseOptions>, DatabaseOptionsValidator>();
@@ -90,9 +97,11 @@ builder.Services.AddSingleton<IAdminAuthenticationService, AdminAuthenticationSe
 builder.Services.AddTransient<ITwitterTimelineService, TwitterTimelineService>();
 builder.Services.AddScoped<IContactMessageBuilder, ContactMessageBuilder>();
 builder.Services.AddSingleton<IBackgroundEmailQueue, BackgroundEmailQueue>();
+builder.Services.AddHttpClient<ResendClient>();
+builder.Services.AddTransient<IResend, ResendClient>();
 builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<EmailServerConfiguration>>().Value);
-builder.Services.AddTransient<IEmailService, MailKitEmailService>();
-builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<EmailAddress>>().Value);
+builder.Services.AddTransient<IEmailService, ResendEmailService>();
+builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<AppEmailAddress>>().Value);
 builder.Services.AddHostedService<BackgroundEmailSenderService>();
 
 var app = builder.Build();
