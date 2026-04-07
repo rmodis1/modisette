@@ -72,13 +72,16 @@ The app now supports SQLite for local development and PostgreSQL for deployment.
     dotnet user-secrets set "Database:Provider" "sqlite"
     dotnet user-secrets set "EmailConfiguration:From" "your-smtp-address@example.com"
     dotnet user-secrets set "EmailConfiguration:SmtpServer" "smtp.gmail.com"
-    dotnet user-secrets set "EmailConfiguration:SmtpPort" "465"
+    dotnet user-secrets set "EmailConfiguration:SmtpPort" "587"
+    dotnet user-secrets set "EmailConfiguration:SecureSocketOptions" "StartTls"
     dotnet user-secrets set "EmailConfiguration:SmtpUsername" "your-smtp-address@example.com"
     dotnet user-secrets set "EmailConfiguration:SmtpPassword" "your-app-password"
     dotnet user-secrets set "SiteEmailAddress:Name" "Site Owner"
     dotnet user-secrets set "SiteEmailAddress:Address" "owner@example.com"
     ```
     The app now validates these settings at startup. If they are missing or malformed, startup will fail instead of falling back to checked-in placeholders.
+
+    For cloud deployments, prefer port `587` with `EmailConfiguration:SecureSocketOptions=StartTls`. Port `465` with implicit TLS can time out in some hosted environments.
 5. Set up the database:
     ```sh
     dotnet ef database update

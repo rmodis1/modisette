@@ -9,30 +9,40 @@ namespace Modisette.Services;
 public class MailKitEmailService: IEmailService
 {
     private readonly EmailServerConfiguration _eConfig;
+
     public MailKitEmailService(EmailServerConfiguration config)
     {
         _eConfig = config;
     }
 
-    public async Task Send(EmailMessage emailMessage)
+    public async Task Send(EmailMessage message)
     {
-        var message = new MimeMessage();
-        message.From.AddRange(emailMessage.FromEmailAddress.Select(x => new MailboxAddress(x.Name, x.Address)));
-        message.To.AddRange(emailMessage.ToEmailAddress.Select(x => new MailboxAddress(x.Name, x.Address)));
-        message.Subject = emailMessage.Subject;
-        message.Body = new TextPart("plain")
+        var mimeMessage = new MimeMessage();
+        mimeMessage.From.AddRange(message.FromEmailAddress.Select(x => new MailboxAddress(x.Name, x.Address)));
+        mimeMessage.To.AddRange(message.ToEmailAddress.Select(x => new MailboxAddress(x.Name, x.Address)));
+        mimeMessage.Subject = message.Subject;
+        mimeMessage.Body = new TextPart("plain")
         {
-            Text = emailMessage.Content
+            Text = message.Content
         };
 
         using (var client = new MailKit.Net.Smtp.SmtpClient())
         {
-            await client.ConnectAsync(_eConfig.SmtpServer, _eConfig.SmtpPort, true);
+            client.Timeout = (int)TimeSpan.FromSeconds(10).TotalMilliseconds;
+
+            await client.ConnectAsync(_eConfig.SmtpServer, _eConfig.SmtpPort, GetSecureSocketOptions());
 
             await client.AuthenticateAsync(_eConfig.SmtpUsername, _eConfig.SmtpPassword);
 
-            await client.SendAsync(message);
+            await client.SendAsync(mimeMessage);
             await client.DisconnectAsync(true);
         }
+    }
+
+    private SecureSocketOptions GetSecureSocketOptions()
+    {
+        return Enum.TryParse<SecureSocketOptions>(_eConfig.SecureSocketOptions, ignoreCase: true, out var secureSocketOptions)
+            ? secureSocketOptions
+            : SecureSocketOptions.Auto;
     }
 }

@@ -65,4 +65,29 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script>
+        (() => {
+            const form = document.getElementById("contactForm");
+            const submitButton = document.getElementById("submitButton");
+
+            if (!form || !submitButton) {
+                return;
+            }
+
+            form.addEventListener("submit", event => {
+                if (submitButton.disabled) {
+                    event.preventDefault();
+                    return;
+                }
+
+                if (window.jQuery && !window.jQuery(form).valid()) {
+                    return;
+                }
+
+                submitButton.disabled = true;
+                submitButton.textContent = "Submitting...";
+            });
+        })();
+    </script>
 }
