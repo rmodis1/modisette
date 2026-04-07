@@ -11,10 +11,12 @@
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
 
   <ItemGroup>
-    <Compile Remove="Modisette.Test/**/*.cs" />
-    <Content Remove="Modisette.Test/**" />
-    <EmbeddedResource Remove="Modisette.Test/**" />
-    <None Remove="Modisette.Test/**" />
+    <NestedProjectFiles Include="**/*.csproj" Exclude="$(MSBuildProjectFile)" />
+    <NestedProjectDirectories Include="@(NestedProjectFiles->'%(RecursiveDir)')" />
+    <Compile Remove="@(NestedProjectDirectories->'%(Identity)**/*.cs')" />
+    <Content Remove="@(NestedProjectDirectories->'%(Identity)**')" />
+    <EmbeddedResource Remove="@(NestedProjectDirectories->'%(Identity)**')" />
+    <None Remove="@(NestedProjectDirectories->'%(Identity)**')" />
   </ItemGroup>
 
   <ItemGroup>

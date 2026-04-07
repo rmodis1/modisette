@@ -18,7 +18,7 @@ Move production persistence from the local SQLite file to Supabase Postgres with
 
 1. Provision the Supabase Postgres database and collect the SSL-required connection string.
 2. Switch a local development environment to Postgres with `Database__Provider=postgres` and `ConnectionStrings__Postgres=...`.
-3. Create a PostgreSQL baseline migration after deciding whether to keep the existing migration history or replace it with a fresh provider-neutral baseline.
+3. Create a PostgreSQL baseline migration in the dedicated `Modisette.PostgresMigration` project so the existing SQLite migration history can stay intact.
 4. Apply the Postgres migration to an empty Supabase database.
 5. Export the current SQLite data and import it into Postgres.
 6. Validate the app locally against Postgres before any deployment cutover.
@@ -32,7 +32,7 @@ The current migrations include SQLite-specific annotations such as `Sqlite:Autoi
 1. Create a fresh Postgres baseline migration once the model is stable.
 2. Or maintain provider-specific migrations if you need both providers to evolve independently.
 
-For this project, a fresh Postgres baseline is the lower-complexity path.
+For this project, a fresh Postgres baseline in a separate migrations assembly is the lower-complexity path.
 
 ## Proposed Implementation Order
 

@@ -6,6 +6,7 @@ public static class SiteContextConfiguration
 {
     public const string SqliteProvider = "sqlite";
     public const string PostgresProvider = "postgres";
+    public const string PostgresMigrationAssembly = "Modisette.PostgresMigration";
 
     public static void Configure(DbContextOptionsBuilder options, IConfiguration configuration)
     {
@@ -16,7 +17,8 @@ public static class SiteContextConfiguration
             var connectionString = configuration.GetConnectionString("Postgres")
                 ?? throw new InvalidOperationException("Connection string 'Postgres' not found.");
 
-            options.UseNpgsql(connectionString);
+            options.UseNpgsql(connectionString, npgsql =>
+                npgsql.MigrationsAssembly(PostgresMigrationAssembly));
             return;
         }
 
