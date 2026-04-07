@@ -10,6 +10,13 @@ using Modisette.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var port = Environment.GetEnvironmentVariable("PORT");
+var urls = Environment.GetEnvironmentVariable("ASPNETCORE_URLS");
+if (!string.IsNullOrWhiteSpace(port) && string.IsNullOrWhiteSpace(urls))
+{
+    builder.WebHost.UseUrls($"http://*:{port}");
+}
+
 // Add services.
 builder.Services.AddOptions<AdminAuthOptions>()
                 .Bind(builder.Configuration.GetSection(AdminAuthOptions.SectionName))

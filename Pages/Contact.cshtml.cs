@@ -11,13 +11,19 @@ public class ContactModel : PageModel
     private readonly IContactService _contactService;
     private readonly IEmailService _emailService;
     private readonly IContactMessageBuilder _contactMessageBuilder;
+    private readonly ILogger<ContactModel> _logger;
 
     // Constructor Injection: Dependencies are injected through the constructor, promoting loose coupling.
-    public ContactModel(IContactService contactService, IEmailService emailService, IContactMessageBuilder contactMessageBuilder)
+    public ContactModel(
+        IContactService contactService,
+        IEmailService emailService,
+        IContactMessageBuilder contactMessageBuilder,
+        ILogger<ContactModel> logger)
     {
         _contactService = contactService;
         _emailService = emailService;
         _contactMessageBuilder = contactMessageBuilder;
+        _logger = logger;
     }
 
     [BindProperty]
@@ -41,7 +47,7 @@ public class ContactModel : PageModel
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.ToString());
+            _logger.LogError(ex, "Failed to send contact form notification email.");
         }
 
         // Adds the contact form data to the database.
