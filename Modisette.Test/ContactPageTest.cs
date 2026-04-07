@@ -2,6 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging.Abstractions;
 using Modisette.Models;
 using Modisette.Data;
 using Modisette.Pages;
@@ -25,7 +26,11 @@ namespace Modisette.Tests
             _mockContactMessageBuilder = new Mock<IContactMessageBuilder>();
             _mockContactService = new Mock<IContactService>();
 
-            _contactPageModel = new ContactModel(_mockContactService.Object, _mockEmailService.Object, _mockContactMessageBuilder.Object)
+            _contactPageModel = new ContactModel(
+                _mockContactService.Object,
+                _mockEmailService.Object,
+                _mockContactMessageBuilder.Object,
+                NullLogger<ContactModel>.Instance)
             {
                 Contact = new Contact
                 {
