@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +16,15 @@ var urls = Environment.GetEnvironmentVariable("ASPNETCORE_URLS");
 if (!string.IsNullOrWhiteSpace(port) && string.IsNullOrWhiteSpace(urls))
 {
     builder.WebHost.UseUrls($"http://*:{port}");
+}
+
+var dataProtectionBuilder = builder.Services.AddDataProtection()
+                                          .SetApplicationName("modisette");
+var dataProtectionKeysDirectory = builder.Configuration["DataProtection:KeysDirectory"];
+if (!string.IsNullOrWhiteSpace(dataProtectionKeysDirectory))
+{
+    Directory.CreateDirectory(dataProtectionKeysDirectory);
+    dataProtectionBuilder.PersistKeysToFileSystem(new DirectoryInfo(dataProtectionKeysDirectory));
 }
 
 // Add services.
@@ -79,9 +89,11 @@ builder.Services.AddScoped<IFileService, FileService>();
 builder.Services.AddSingleton<IAdminAuthenticationService, AdminAuthenticationService>();
 builder.Services.AddTransient<ITwitterTimelineService, TwitterTimelineService>();
 builder.Services.AddScoped<IContactMessageBuilder, ContactMessageBuilder>();
+builder.Services.AddSingleton<IBackgroundEmailQueue, BackgroundEmailQueue>();
 builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<EmailServerConfiguration>>().Value);
 builder.Services.AddTransient<IEmailService, MailKitEmailService>();
-builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<EmailAddress>>().Value); 
+builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<EmailAddress>>().Value);
+builder.Services.AddHostedService<BackgroundEmailSenderService>();
 
 var app = builder.Build();
 

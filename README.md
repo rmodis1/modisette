@@ -113,6 +113,18 @@ ConnectionStrings__SiteContext=Data Source=Modisette.db
 
 The current checked-in EF migrations were created against SQLite. The cutover plan for creating a PostgreSQL baseline and moving data is documented in [docs/postgres-migration.md](docs/postgres-migration.md).
 
+### Data Protection Keys In Production
+
+ASP.NET Core uses data-protection keys to encrypt antiforgery tokens and auth cookies. In a container deployment, those keys are lost on redeploy unless you persist them outside the container filesystem.
+
+For Render, mount a persistent disk and set:
+
+```sh
+DataProtection__KeysDirectory=/var/data/modisette-keys
+```
+
+Use the actual mount path you configured in Render if it differs. Without persistent keys, users may see one-time antiforgery or login-cookie failures after a deploy because old cookies can no longer be decrypted.
+
 ## Quality Checks
 
 Run the full validation path locally before pushing changes:

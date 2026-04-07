@@ -7,26 +7,27 @@ namespace Modisette.Pages;
 
 public class ContactModel : PageModel
 {
-    private static readonly TimeSpan EmailSendTimeout = TimeSpan.FromSeconds(10);
-
     // Dependency Inversion Principle (DIP): Depend on abstractions (interfaces) rather than concrete implementations.
     private readonly IContactService _contactService;
-    private readonly IEmailService _emailService;
+    private readonly IBackgroundEmailQueue _backgroundEmailQueue;
     private readonly IContactMessageBuilder _contactMessageBuilder;
     private readonly ILogger<ContactModel> _logger;
 
     // Constructor Injection: Dependencies are injected through the constructor, promoting loose coupling.
     public ContactModel(
         IContactService contactService,
-        IEmailService emailService,
+        IBackgroundEmailQueue backgroundEmailQueue,
         IContactMessageBuilder contactMessageBuilder,
         ILogger<ContactModel> logger)
     {
         _contactService = contactService;
-        _emailService = emailService;
+        _backgroundEmailQueue = backgroundEmailQueue;
         _contactMessageBuilder = contactMessageBuilder;
         _logger = logger;
     }
+
+    [TempData]
+    public string? StatusMessage { get; set; }
 
     [BindProperty]
     public Contact Contact { get; set; } = default!;
@@ -46,17 +47,14 @@ public class ContactModel : PageModel
 
         try
         {
-            // Single Responsibility Principle (SRP): Delegates the email sending responsibility to the IEmailService service.
-            await _emailService.Send(messageToSend).WaitAsync(EmailSendTimeout);
-        }
-        catch (TimeoutException ex)
-        {
-            _logger.LogWarning(ex, "Timed out sending contact form notification email after {TimeoutSeconds} seconds.", EmailSendTimeout.TotalSeconds);
+            await _backgroundEmailQueue.QueueAsync(messageToSend);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Failed to send contact form notification email.");
+            _logger.LogError(ex, "Failed to queue contact form notification email.");
         }
+
+        StatusMessage = "Thanks for reaching out. Your message has been received.";
 
         return RedirectToPage("./Index");
     }

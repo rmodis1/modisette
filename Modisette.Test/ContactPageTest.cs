@@ -14,7 +14,7 @@ namespace Modisette.Tests
     [TestClass]
     public class ContactPageModelTest
     {
-        private Mock<IEmailService>? _mockEmailService;
+        private Mock<IBackgroundEmailQueue>? _mockBackgroundEmailQueue;
         private Mock<IContactMessageBuilder>? _mockContactMessageBuilder;
         private Mock<IContactService>? _mockContactService;
         private ContactModel? _contactPageModel;
@@ -22,13 +22,13 @@ namespace Modisette.Tests
         [TestInitialize]
         public void TestInitialize()
         {
-            _mockEmailService = new Mock<IEmailService>();
+            _mockBackgroundEmailQueue = new Mock<IBackgroundEmailQueue>();
             _mockContactMessageBuilder = new Mock<IContactMessageBuilder>();
             _mockContactService = new Mock<IContactService>();
 
             _contactPageModel = new ContactModel(
                 _mockContactService.Object,
-                _mockEmailService.Object,
+                _mockBackgroundEmailQueue.Object,
                 _mockContactMessageBuilder.Object,
                 NullLogger<ContactModel>.Instance)
             {
@@ -44,7 +44,7 @@ namespace Modisette.Tests
         }
 
         [TestMethod]
-        public async Task OnPostAsync_ModelStateValid_EmailSent()
+        public async Task OnPostAsync_ModelStateValid_EmailQueued()
         {
             // Arrange
             _contactPageModel.ModelState.Clear();
@@ -70,7 +70,7 @@ namespace Modisette.Tests
             var redirectToPageResult = result as RedirectToPageResult;
             Assert.AreEqual("./Index", redirectToPageResult.PageName);
 
-            _mockEmailService.Verify(service => service.Send(It.IsAny<EmailMessage>()), Times.Once);
+            _mockBackgroundEmailQueue.Verify(queue => queue.QueueAsync(It.IsAny<EmailMessage>(), It.IsAny<CancellationToken>()), Times.Once);
             _mockContactMessageBuilder.Verify(builder => builder.BuildMessage(It.IsAny<Contact>()), Times.Once);
             _mockContactService.Verify(service => service.CreateContactAsync(It.IsAny<Contact>()), Times.Once);
         }

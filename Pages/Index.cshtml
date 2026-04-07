@@ -4,6 +4,14 @@
     ViewData["Title"] = "Home page";
 }
 
+@if (!string.IsNullOrWhiteSpace(Model.StatusMessage))
+{
+    <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+        @Model.StatusMessage
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
 <div class="container-fluid position-relative">
     <span class="position-absolute top-50 start-50 translate-middle">
         <h1 class="display-1 text-center" id="HomeTag">vicki modisette</h1>
